@@ -5,9 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-background: #d9e0dc;
+  --color-custom-green: #26b6aa;
+  --color-custom-pink: #d891a0;
+  --color-background: #fcfbfb;
   --color-foreground: hsl(var(--foreground));
-  --color-mint-500: oklch(0.72 0.11 178);
 
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));

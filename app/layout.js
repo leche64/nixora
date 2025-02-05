@@ -8,8 +8,8 @@ const DepatureMono = localFont({
   weight: "400",
 });
 export const metadata = {
-  title: "Ryut AI",
-  description: "Ryut AI",
+  title: "Nixora AI",
+  description: "Nixora AI",
 };
 
 export default function RootLayout({ children }) {

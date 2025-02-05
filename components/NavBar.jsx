@@ -16,9 +16,9 @@ export function NavBar() {
           <div className="flex items-center space-x-2">
             <Link href="/" className="flex items-center space-x-2">
               <div className="relative size-12 md:size-18">
-                <Image src="/ryut-logo.svg" alt="ryut" fill className="object-contain w-full h-full" priority />
+                <Image src="/nixora-logo.svg" alt="Nixora" fill className="object-contain w-full h-full" priority />
               </div>
-              <h1 className="text-3xl font-black text-black md:text-4xl tracking-wide">Ryut</h1>
+              <h1 className="text-3xl font-black text-black md:text-4xl tracking-wide">Nixora</h1>
             </Link>
           </div>
           <div className="flex items-center space-x-4">
