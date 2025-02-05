@@ -28,7 +28,7 @@ export function NavBar() {
               disabled
               className="ml-auto text-black bg-transparent rounded-xl transition-all duration-300 ease-in-out cursor-pointer gradient-button outline-transparent"
             >
-              <Wallet color="#26B6AA" weight="duotone" /> Connect
+              <Wallet color="#1A8A81" weight="fill" /> Connect
             </Button>
           </div>
         </div>
