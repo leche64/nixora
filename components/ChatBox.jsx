@@ -153,9 +153,7 @@ export default function ChatBox({ onTypingChange }) {
             <div
               className={cn(
                 "flex max-w-[90%] sm:max-w-[80%] rounded-2xl px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
-                message.type === "user"
-                  ? "bg-primary text-primary-foreground text-right"
-                  : "bg-blue-950/80 text-white dark:bg-black dark:text-black text-left",
+                message.type === "user" ? "bg-[#26b6aa] text-black" : "bg-[#d891a0] text-black",
                 "shadow-sm"
               )}
             >
@@ -205,7 +203,7 @@ export default function ChatBox({ onTypingChange }) {
             <div
               className={cn(
                 "flex max-w-[90%] sm:max-w-[80%] rounded-2xl px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
-                "bg-blue-950/80 text-white dark:bg-black dark:text-black text-left",
+                "bg-[#d891a0] text-black",
                 "shadow-sm"
               )}
             >
