@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const SUI_PRICE_QUERY_KEY = ["suiPrice"];
 const STALE_TIME = 30 * 1000; // 30 seconds
-const CACHE_TIME = 5 * 60 * 1000; // 5 minutes
+const CACHE_TIME = 2 * 60 * 1000; // 5 minutes
 
 export function useSuiPrice() {
   return useQuery({

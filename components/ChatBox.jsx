@@ -176,8 +176,10 @@ export default function ChatBox({ onTypingChange }) {
           >
             <div
               className={cn(
-                "flex max-w-[90%] sm:max-w-[80%] rounded-2xl px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
-                message.type === "user" ? "bg-[#d891a0] text-black" : "bg-[#26b6aa] text-black",
+                "flex max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
+                message.type === "user"
+                  ? "bg-[#d891a0] text-black rounded-2xl rounded-br-none"
+                  : "bg-[#26b6aa] text-black rounded-2xl rounded-bl-none",
                 "shadow-sm",
                 "break-words whitespace-pre-wrap overflow-hidden"
               )}
@@ -227,8 +229,8 @@ export default function ChatBox({ onTypingChange }) {
           <div className="flex justify-start">
             <div
               className={cn(
-                "flex max-w-[90%] sm:max-w-[80%] rounded-2xl px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
-                "bg-[#26b6aa] text-black",
+                "flex max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
+                "bg-[#26b6aa] text-black rounded-2xl rounded-bl-none",
                 "shadow-sm",
                 "break-words whitespace-pre-wrap overflow-hidden"
               )}
