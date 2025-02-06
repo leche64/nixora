@@ -44,10 +44,22 @@ const tools = [
       },
     },
   },
+  {
+    type: "function",
+    function: {
+      name: "getTrendingTokens",
+      description: "Get trending tokens and their detailed information from DexScreener",
+      parameters: {
+        type: "object",
+        properties: {}, // No parameters needed
+        required: [],
+      },
+    },
+  },
 ];
 
 async function getDexScreenerData(tokenAddress) {
-  const response = await fetch(`https://api.dexscreener.com/tokens/v1/base/${tokenAddress}`);
+  const response = await fetch(`https://api.dexscreener.com/tokens/v1/sui/${tokenAddress}`);
   const data = await response.json();
   return data[0]; // Returns first pair data
 }
@@ -112,7 +124,8 @@ export async function POST(req) {
       message.toLowerCase().includes("token") ||
       message.toLowerCase().includes("search") ||
       message.toLowerCase().includes("find") ||
-      message.toLowerCase().includes("what is");
+      message.toLowerCase().includes("what is") ||
+      message.toLowerCase().includes("sui tokens");
 
     if (needsTools) {
       const initialCompletion = await openai.chat.completions.create({
@@ -149,6 +162,8 @@ export async function POST(req) {
                 toolResult = await getDexScreenerData(args.tokenAddress);
               } else if (toolCall.function.name === "searchInternet") {
                 toolResult = await searchInternet(args.query);
+              } else if (toolCall.function.name === "getTrendingTokens") {
+                toolResult = await getTrendingTokens();
               }
 
               console.log("Tool result:", toolResult);
@@ -229,5 +244,89 @@ export async function POST(req) {
   } catch (error) {
     console.error("AI Tools Error:", error);
     return Response.json({ error: error.message }, { status: 500 });
+  }
+}
+
+const TOKEN_PROFILES_API = "https://api.dexscreener.com/token-profiles/latest/v1";
+
+/**
+ * Fetches and processes trending tokens from DexScreener
+ * @returns {Promise<{success: boolean, data: Array}>}
+ */
+export async function getTrendingTokens() {
+  try {
+    // Fetch token profiles from DexScreener API
+    const response = await fetch(TOKEN_PROFILES_API, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch token profiles");
+    }
+
+    const responseData = await response.json();
+
+    // Validate that responseData is an array
+    if (!Array.isArray(responseData)) {
+      console.error("Invalid data structure received:", responseData);
+      return {
+        success: false,
+        data: [],
+        error: "Invalid data structure received from API",
+      };
+    }
+
+    // Extract base address from all tokens
+    const processedTokens = responseData
+      .filter((token) => token && token.tokenAddress && token.chainId === "sui") // Updated to use tokenAddress
+      .map((token) => ({
+        ...token,
+        address: token.tokenAddress, // Use tokenAddress directly
+      }));
+
+    console.log("Processed tokens:", processedTokens);
+
+    // Get detailed data for each token
+    const detailedTokenData = await Promise.all(
+      processedTokens.map(async (token) => {
+        try {
+          const dexScreenerData = await getDexScreenerData(token.address);
+          if (!dexScreenerData) {
+            return {
+              ...token,
+              dexScreenerData: null,
+              error: "No data found",
+            };
+          }
+          return {
+            ...token,
+            dexScreenerData,
+          };
+        } catch (error) {
+          console.error(`Error fetching detailed data for ${token.address}:`, error);
+          return {
+            ...token,
+            dexScreenerData: null,
+            error: error.message,
+          };
+        }
+      })
+    );
+
+    return {
+      success: true,
+      data: detailedTokenData.filter((token) => token.dexScreenerData), // Only return tokens with valid data
+      timestamp: new Date().toISOString(),
+    };
+  } catch (error) {
+    console.error("Error in getTrendingTokens:", error);
+    return {
+      success: false,
+      data: [],
+      error: error.message,
+      timestamp: new Date().toISOString(),
+    };
   }
 }
