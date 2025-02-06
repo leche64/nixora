@@ -229,10 +229,11 @@ export default function ChatBox({ onTypingChange }) {
               className={cn(
                 "flex max-w-[90%] sm:max-w-[80%] rounded-2xl px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
                 "bg-[#26b6aa] text-black",
-                "shadow-sm"
+                "shadow-sm",
+                "break-words whitespace-pre-wrap overflow-hidden"
               )}
             >
-              <div className="w-full prose prose-xs dark:prose-invert">
+              <div className="w-full prose prose-xs dark:prose-invert break-all">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
