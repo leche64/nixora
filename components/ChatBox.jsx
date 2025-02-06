@@ -212,12 +212,12 @@ export default function ChatBox({ onTypingChange }) {
               </div>
             </div>
             {message.type === "ai" && message.stats && (
-              <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground/90 mt-2 space-x-2 sm:space-x-3 font-semibold">
-                <span className="px-0.5 py-0.5 rounded-md bg-muted/90">{message.stats.tokens} tokens</span>
+              <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground/90 mt-2 space-x-1 sm:space-x-2 font-semibold">
+                <span className="px-0.5 py-0.5 rounded-md bg-muted/30">{message.stats.tokens} tokens</span>
                 <span className="text-muted-foreground/40">•</span>
-                <span className="px-0.5 py-0.5 rounded-md bg-muted/90">{message.stats.duration}s</span>
+                <span className="px-0.5 py-0.5 rounded-md bg-muted/30">{message.stats.duration}s</span>
                 <span className="text-muted-foreground/40">•</span>
-                <span className="px-0.5 py-0.5 rounded-md bg-muted/90">{message.stats.tokensPerSecond} tokens/s</span>
+                <span className="px-0.5 py-0.5 rounded-md bg-muted/30">{message.stats.tokensPerSecond} tokens/s</span>
               </div>
             )}
           </div>
