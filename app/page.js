@@ -1,11 +1,24 @@
+"use client";
+
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import ChatBox from "@/components/ChatBox";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+
 export default function Home() {
+  const [isTyping, setIsTyping] = useState(false);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20]">
-      <main className="flex flex-col gap-8 row-start-2 items-center">
-        <h1 className="text-4xl font-bold">Hello World</h1>
-        <Button>Click me</Button>
+    <div className="flex flex-col items-center justify-center min-h-screen pt-14">
+      <main className="container flex flex-col gap-4 text-center text-black">
+        <ChatBox
+          onTypingChange={(typing) => {
+            console.log("Typing state:", typing); // Debug log
+            setIsTyping(typing);
+          }}
+        />
       </main>
     </div>
   );
