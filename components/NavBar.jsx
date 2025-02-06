@@ -23,7 +23,15 @@ export function NavBar() {
             </Link>
           </div>
           <div className="flex items-center space-x-4">
-            <ConnectButton />
+            <div className="relative inline-block">
+              <ConnectButton
+                className="!bg-transparent !border !border-gray-200 !px-2 sm:!px-3 !py-2 !rounded-lg 
+                          !text-gray-700 hover:!bg-gray-50 !transition-all !duration-200 
+                          !font-medium !flex !items-center !gap-2 !w-auto !min-w-fit"
+              >
+                <Wallet className="size-8 md:size-10" weight="bold" />
+              </ConnectButton>
+            </div>
           </div>
         </div>
       </nav>
