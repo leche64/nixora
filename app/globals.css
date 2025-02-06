@@ -7,7 +7,7 @@
 @theme {
   --color-custom-green: #26b6aa;
   --color-custom-pink: #d891a0;
-  --color-background: ##c5cdc8;
+  --color-background: #c5cdc8;
   --color-foreground: hsl(var(--foreground));
 
   --color-card: hsl(var(--card));
