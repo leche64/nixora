@@ -203,8 +203,8 @@ export default function ChatBox({ onTypingChange }) {
                         />
                       ),
                     p: ({ node, ...props }) => <p className="mb-4 last:mb-0" {...props} />,
-                    ul: ({ node, ...props }) => <ul className="mb-4 pl-4 list-disc last:mb-0" {...props} />,
-                    ol: ({ node, ...props }) => <ol className="mb-4 pl-4 list-decimal last:mb-0" {...props} />,
+                    ul: ({ node, ...props }) => <ul className="mb-4 pl-6 list-disc last:mb-0" {...props} />,
+                    ol: ({ node, ...props }) => <ol className="mb-4 pl-8 list-decimal last:mb-0" {...props} />,
                   }}
                 >
                   {message.content}
@@ -253,8 +253,8 @@ export default function ChatBox({ onTypingChange }) {
                         />
                       ),
                     p: ({ node, ...props }) => <p className="mb-4 last:mb-0" {...props} />,
-                    ul: ({ node, ...props }) => <ul className="mb-4 pl-4 list-disc last:mb-0" {...props} />,
-                    ol: ({ node, ...props }) => <ol className="mb-4 pl-4 list-decimal last:mb-0" {...props} />,
+                    ul: ({ node, ...props }) => <ul className="mb-4 pl-6 list-disc last:mb-0" {...props} />,
+                    ol: ({ node, ...props }) => <ol className="mb-4 pl-8 list-decimal last:mb-0" {...props} />,
                   }}
                 >
                   {streamingContent}
