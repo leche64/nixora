@@ -11,7 +11,7 @@ import { ConnectButton } from "@suiet/wallet-kit";
 export function NavBar() {
   return (
     <>
-      <nav className="fixed top-0 z-50 w-full">
+      <nav className="fixed top-0 z-50 w-full h-full">
         <div className="absolute inset-0 pointer-events-none"></div>
         <div className="container flex relative justify-between items-center px-4 py-4 mx-auto">
           <div className="flex items-center space-x-2">
