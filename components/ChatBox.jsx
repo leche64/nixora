@@ -227,7 +227,7 @@ export default function ChatBox({ onTypingChange }) {
             <div
               className={cn(
                 "flex max-w-[90%] sm:max-w-[80%] rounded-2xl px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
-                "bg-[#d891a0] text-black",
+                "bg-[#26b6aa] text-black",
                 "shadow-sm"
               )}
             >
