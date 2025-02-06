@@ -20,6 +20,7 @@ export default function ChatBox({ onTypingChange }) {
   const [streamStartTime, setStreamStartTime] = useState(null);
   const [isAITyping, setIsAITyping] = useState(false);
   const [userHasScrolled, setUserHasScrolled] = useState(false);
+  const initialMessageSent = useRef(false);
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -70,6 +71,96 @@ export default function ChatBox({ onTypingChange }) {
     console.log("AI Typing state changed:", isAITyping);
     onTypingChange(isAITyping);
   }, [isAITyping, onTypingChange]);
+
+  useEffect(() => {
+    const sendInitialMessage = async () => {
+      if (initialMessageSent.current) return;
+      initialMessageSent.current = true;
+
+      setIsPending(true);
+      setIsAITyping(true);
+      setStreamStartTime(Date.now());
+      let tokenCount = 0;
+
+      try {
+        const startTime = Date.now();
+        const response = await fetch("/api/ai-tools", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: "hello, what are you" }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to get response");
+        }
+
+        const reader = response.body.getReader();
+        let accumulatedContent = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            setIsAITyping(false);
+            break;
+          }
+
+          const chunk = new TextDecoder().decode(value);
+          accumulatedContent += chunk;
+          tokenCount = Math.ceil(accumulatedContent.length / 4);
+          setStreamingContent(accumulatedContent);
+        }
+
+        const duration = (Date.now() - startTime) / 1000;
+        const tokensPerSecond = duration > 0 ? (tokenCount / duration).toFixed(1) : "0.0";
+
+        const stats = {
+          tokens: tokenCount,
+          duration: duration.toFixed(1),
+          tokensPerSecond,
+        };
+
+        setMessages([
+          {
+            content: accumulatedContent,
+            type: "ai",
+            stats,
+          },
+        ]);
+
+        setMessageStats(stats);
+      } catch (error) {
+        console.error("Error:", error);
+        setIsError(true);
+        setMessages([{ content: "Sorry, something went wrong. Please try again.", type: "ai" }]);
+        setIsAITyping(false);
+      } finally {
+        setIsPending(false);
+        setStreamingContent("");
+      }
+    };
+
+    if (typeof window !== "undefined") {
+      if (document.readyState === "complete") {
+        if (messages.length === 0) {
+          sendInitialMessage();
+        }
+      } else {
+        window.addEventListener("load", () => {
+          if (messages.length === 0) {
+            sendInitialMessage();
+          }
+        });
+      }
+    }
+
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("load", sendInitialMessage);
+      }
+    };
+  }, []);
 
   const handleSendMessage = async () => {
     const trimmedInput = input.trim();

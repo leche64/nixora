@@ -133,7 +133,7 @@ export async function POST(req) {
         messages: [
           {
             role: "system",
-            content: nixoraToolsContent,
+            content: nixoraSystemContent,
           },
           { role: "user", content: message },
         ],
