@@ -11,15 +11,13 @@ export default function Home() {
   const [isTyping, setIsTyping] = useState(false);
 
   return (
-    <div className="container flex flex-col items-center justify-center">
-      <main className="container flex flex-col gap-4 text-black">
-        <ChatBox
-          onTypingChange={(typing) => {
-            console.log("Typing state:", typing); // Debug log
-            setIsTyping(typing);
-          }}
-        />
-      </main>
-    </div>
+    <main className="container flex flex-col gap-4 text-black">
+      <ChatBox
+        onTypingChange={(typing) => {
+          console.log("Typing state:", typing); // Debug log
+          setIsTyping(typing);
+        }}
+      />
+    </main>
   );
 }
