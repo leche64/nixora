@@ -19,26 +19,38 @@ export default function ChatBox({ onTypingChange }) {
   const [messageStats, setMessageStats] = useState({});
   const [streamStartTime, setStreamStartTime] = useState(null);
   const [isAITyping, setIsAITyping] = useState(false);
+  const [userHasScrolled, setUserHasScrolled] = useState(false);
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
       const container = messagesEndRef.current.parentElement;
       container.scrollTo({
         top: container.scrollHeight,
-        behavior: "smooth",
+        behavior: isPending ? "auto" : "smooth",
       });
     }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (messages.length > 0 && messages[messages.length - 1].type === "user") {
+      scrollToBottom();
+    }
   }, [messages]);
 
   useEffect(() => {
-    if (streamingContent) {
-      scrollToBottom();
+    if (messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage.type === "user" || (!isPending && !streamingContent)) {
+        const container = messagesEndRef.current?.parentElement;
+        if (container) {
+          container.scrollTo({
+            top: container.scrollHeight,
+            behavior: "auto",
+          });
+        }
+      }
     }
-  }, [streamingContent]);
+  }, [messages, isPending, streamingContent]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -142,9 +154,21 @@ export default function ChatBox({ onTypingChange }) {
     setIsPending(false);
   };
 
+  const handleScroll = (e) => {
+    const container = e.target;
+    const isScrolledUp = container.scrollHeight - container.scrollTop - container.clientHeight > 200;
+    setUserHasScrolled(isScrolledUp);
+  };
+
   return (
     <div className="flex flex-col h-[600px] sm:h-[500px] md:h-[600px] w-[90%] mx-auto">
-      <div className="flex-1 p-2 sm:p-4 space-y-4 sm:space-y-6 overflow-y-auto scroll-smooth">
+      <div
+        className="relative flex-1 p-2 sm:p-4 space-y-4 sm:space-y-6 
+          overflow-y-auto
+          scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent
+          hover:scrollbar-thumb-primary/40"
+        onScroll={handleScroll}
+      >
         {messages.map((message, index) => (
           <div
             key={index}
