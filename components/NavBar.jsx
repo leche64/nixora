@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Wallet } from "@phosphor-icons/react";
+import { ConnectButton } from "@suiet/wallet-kit";
 
 export function NavBar() {
   return (
@@ -22,14 +23,7 @@ export function NavBar() {
             </Link>
           </div>
           <div className="flex items-center space-x-4">
-            <Button
-              // disabled={disableLogin}
-              // onClick={login}
-              disabled
-              className="ml-auto text-black bg-transparent rounded-xl transition-all duration-300 ease-in-out cursor-pointer gradient-button outline-transparent"
-            >
-              <Wallet color="#1A8A81" weight="fill" /> Connect
-            </Button>
+            <ConnectButton />
           </div>
         </div>
       </nav>
