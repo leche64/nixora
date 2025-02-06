@@ -5,22 +5,6 @@ import { useSuiPrice } from "@/hooks/useSuiPrice";
 import { useQuery } from "@tanstack/react-query";
 import { useWallet } from "@suiet/wallet-kit";
 
-async function fetchBaseBlock() {
-  const response = await fetch("/api/base-block");
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
-}
-
-async function fetchGasPrice() {
-  const response = await fetch("/api/base-gwei");
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
-}
-
 async function fetchSuiEpoch() {
   const response = await fetch("/api/sui-epoch");
   if (!response.ok) {
@@ -32,19 +16,6 @@ async function fetchSuiEpoch() {
 export default function FooterContent() {
   const { data: suiData } = useSuiPrice();
   const wallet = useWallet();
-  const { data: blockData, isLoading: isBlockLoading } = useQuery({
-    queryKey: ["baseBlock"],
-    queryFn: fetchBaseBlock,
-    refetchOnWindowFocus: true,
-    refetchInterval: 120000, // Refetch every 2 minutes
-  });
-
-  const { data: gasData, isLoading: isGasLoading } = useQuery({
-    queryKey: ["baseGas"],
-    queryFn: fetchGasPrice,
-    refetchOnWindowFocus: true,
-    refetchInterval: 600000, // Refetch every 10 minutes
-  });
 
   const { data: epochData, isLoading: isEpochLoading } = useQuery({
     queryKey: ["suiEpoch"],
@@ -52,8 +23,6 @@ export default function FooterContent() {
     refetchOnWindowFocus: true,
     refetchInterval: 120000, // Refetch every 2 minutes
   });
-
-  const blockNumber = blockData?.data?.number;
 
   return (
     <div className="container mx-auto w-full px-2 md:px-4 h-full">
