@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@langchain/ollama": "^0.1.5",
+    "@mysten/sui.js": "^0.54.1",
     "@phosphor-icons/react": "^2.1.7",
     "@radix-ui/react-avatar": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.5",
