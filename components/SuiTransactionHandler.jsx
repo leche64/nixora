@@ -67,39 +67,33 @@ export function useSuiTransfer() {
       // Create transfer transaction
       txb.transferObjects([txb.splitCoins(txb.gas, [amountInMist])], txb.pure(recipientAddress));
 
-      const result = await signAndExecuteTransactionBlock({
-        transactionBlock: txb,
-        options: {
-          showEffects: true,
-          showEvents: true,
-        },
-      });
-
-      toast.success(
-        <div className="flex flex-col gap-2">
-          <p>Transaction submitted successfully!</p>
-          <p className="text-sm text-muted-foreground break-all">TX: {result.digest}</p>
-        </div>,
-        {
-          duration: 6000,
-          action: {
-            label: "View TX",
-            onClick: () => window.open(`https://suiexplorer.com/txblock/${result.digest}`, "_blank"),
+      try {
+        const result = await signAndExecuteTransactionBlock({
+          transactionBlock: txb,
+          options: {
+            showEffects: true,
           },
+        });
+
+        toast.success("Transfer completed successfully!");
+        return result;
+      } catch (error) {
+        // Check specifically for user rejection
+        if (error.message.includes("User rejected")) {
+          toast.error("Transaction cancelled by user");
+          return null; // Return null to indicate user cancellation
         }
-      );
-      return result;
-    } catch (error) {
-      if (error.message.includes("User rejected")) {
-        toast.error("Transaction cancelled by user", {
-          duration: 3000,
-        });
-      } else {
-        toast.error(`Transaction failed: ${error.message}`, {
-          duration: 4000,
-        });
+
+        // Handle other wallet-related errors
+        console.error("Wallet error:", error);
+        toast.error("Transaction failed: " + error.message);
+        return null;
       }
-      throw error; // Re-throw to handle in the calling code if needed
+    } catch (error) {
+      // Handle other errors (parsing, validation etc)
+      console.error("Transfer error:", error);
+      toast.error("Failed to process transfer request");
+      return null;
     }
   };
 
