@@ -49,12 +49,22 @@ export function useSuiTransfer() {
         rawRequest: transferRequest,
       });
 
-      const txb = new TransactionBlock();
+      // Debug log the incoming amount
+      console.log("Incoming amount before conversion:", amount);
+
+      // Ensure amount is treated as a decimal number
+      const amountNumber = parseFloat(amount);
+      console.log("Amount after parseFloat:", amountNumber);
 
       // Convert SUI amount to MIST (1 SUI = 10^9 MIST)
-      const amountInMist = BigInt(Math.floor(amount * 1e9));
+      const amountInMist = BigInt(Math.round(amountNumber * 1e9));
 
-      // Directly transfer SUI from sender to recipient
+      // Debug log the final MIST amount
+      console.log("Final MIST amount:", amountInMist.toString());
+
+      const txb = new TransactionBlock();
+
+      // Create transfer transaction
       txb.transferObjects([txb.splitCoins(txb.gas, [amountInMist])], txb.pure(recipientAddress));
 
       const result = await signAndExecuteTransactionBlock({
@@ -65,12 +75,31 @@ export function useSuiTransfer() {
         },
       });
 
-      toast.success("Transaction submitted successfully!");
+      toast.success(
+        <div className="flex flex-col gap-2">
+          <p>Transaction submitted successfully!</p>
+          <p className="text-sm text-muted-foreground break-all">TX: {result.digest}</p>
+        </div>,
+        {
+          duration: 6000,
+          action: {
+            label: "View TX",
+            onClick: () => window.open(`https://suiexplorer.com/txblock/${result.digest}`, "_blank"),
+          },
+        }
+      );
       return result;
     } catch (error) {
-      console.error("Transfer error:", error);
-      toast.error(error.message || "Transaction failed. Please try again.");
-      throw error;
+      if (error.message.includes("User rejected")) {
+        toast.error("Transaction cancelled by user", {
+          duration: 3000,
+        });
+      } else {
+        toast.error(`Transaction failed: ${error.message}`, {
+          duration: 4000,
+        });
+      }
+      throw error; // Re-throw to handle in the calling code if needed
     }
   };
 

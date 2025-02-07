@@ -232,7 +232,46 @@ export default function ChatBox({ onTypingChange }) {
           // Check if the response is a tool result
           console.log("FILTERCHECK:", text.includes("TRANSFER_REQUEST"));
           if (text.includes("TRANSFER_REQUEST")) {
-            handleTransfer(text);
+            const toolCall = JSON.parse(text);
+            if (toolCall.tool_calls?.[0]?.function?.arguments) {
+              const args = JSON.parse(toolCall.tool_calls[0].function.arguments);
+
+              // Debug log the original amount
+              console.log("Original amount from AI:", args.amount);
+
+              // Ensure amount is properly parsed as decimal
+              let normalizedAmount =
+                typeof args.amount === "string"
+                  ? parseFloat(args.amount.replace(/[^0-9.]/g, ""))
+                  : parseFloat(args.amount);
+
+              // Debug log the normalized amount
+              console.log("Normalized amount:", normalizedAmount);
+
+              // Create new normalized tool call
+              const normalizedText = JSON.stringify({
+                ...toolCall,
+                tool_calls: [
+                  {
+                    ...toolCall.tool_calls[0],
+                    function: {
+                      ...toolCall.tool_calls[0].function,
+                      arguments: JSON.stringify({
+                        ...args,
+                        amount: normalizedAmount.toString(),
+                      }),
+                    },
+                  },
+                ],
+              });
+
+              // Debug log the final tool call
+              console.log("Normalized tool call:", normalizedText);
+
+              handleTransfer(normalizedText);
+            } else {
+              handleTransfer(text);
+            }
             const toolResponse = JSON.parse(text);
             console.log("Transfer tool response:", toolResponse.data);
             // Handle the transfer response specifically
@@ -298,7 +337,7 @@ export default function ChatBox({ onTypingChange }) {
   };
 
   return (
-    <div className="flex flex-col h-[600px] sm:h-[500px] md:h-[600px] w-[90%] mx-auto">
+    <div className="flex flex-col pt-10 h-[700px] w-[90%] mx-auto">
       <div
         className="relative flex-1 p-2 sm:p-4 space-y-4 sm:space-y-6 
           overflow-y-auto
