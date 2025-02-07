@@ -12,7 +12,7 @@ import { useSuiTransfer } from "@/components/SuiTransactionHandler";
 import TextareaAutosize from "react-textarea-autosize";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip } from "react-tooltip";
-import { Globe, HandCoins, Rocket, Brain } from "@phosphor-icons/react";
+import { Globe, HandCoins, Rocket, Brain, Drop } from "@phosphor-icons/react";
 
 export default function ChatBox({ onTypingChange }) {
   const inputRef = useRef(null);
@@ -531,6 +531,39 @@ export default function ChatBox({ onTypingChange }) {
               <code className="break-all bg-black/10 px-1.5 py-0.5 rounded-md">
                 0x914bd0c5cee2e74843dd37eb45e8afe802bfe132f5227888906c703ed8b4b632"
               </code>
+            </div>
+          }
+        />
+
+        <Badge variant="outline" className="gap-1 cursor-help" data-tooltip-id="liquidity-tooltip">
+          <Drop className="w-4 h-4" />
+          Liquidity
+        </Badge>
+        <Tooltip
+          id="liquidity-tooltip"
+          place="top"
+          content={
+            <div className="flex flex-col gap-1 z-50 max-w-[200px] whitespace-normal !text-wrap text-xs">
+              <p>Find DeFi yield and rates across NAVI protocol.</p>
+              <br />
+              <p>Try asking: "find me the best yield on NAVI protocol"</p>
+            </div>
+          }
+        />
+
+        <Badge variant="outline" className="gap-1 cursor-help" data-tooltip-id="llm-tooltip">
+          <Brain className="w-4 h-4" />
+          LLM
+        </Badge>
+        <Tooltip
+          id="llm-tooltip"
+          place="top"
+          content={
+            <div className="flex flex-col gap-1 z-50 max-w-[300px] whitespace-normal !text-wrap text-xs">
+              <p>
+                Powered by open sourced models (Llama3.3, DeepSeek R1, FLUX.1) running on Atoma network, decentralized
+                AI private cloud provider.
+              </p>
             </div>
           }
         />
