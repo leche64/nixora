@@ -1,6 +1,8 @@
 import OpenAI from "openai";
 const { tavily } = require("@tavily/core");
 import { nixoraSystemContent, nixoraToolsContent } from "@/lib/ai-agent/ai-nixora-system";
+import { SuiClient } from "@mysten/sui.js/client";
+import { getSuiNetworkConfig } from "@/lib/utils";
 
 const openai = new OpenAI({
   baseURL: "http://localhost:11434/v1",
@@ -53,6 +55,23 @@ const tools = [
         type: "object",
         properties: {}, // No parameters needed
         required: [],
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "getWalletBalance",
+      description: "Get SUI and token balances for a given wallet address",
+      parameters: {
+        type: "object",
+        properties: {
+          walletAddress: {
+            type: "string",
+            description: "The SUI wallet address to query",
+          },
+        },
+        required: ["walletAddress"],
       },
     },
   },
@@ -114,6 +133,52 @@ async function searchInternet(query) {
   };
 }
 
+async function getWalletBalance(walletAddress) {
+  try {
+    const { rpcUrl } = getSuiNetworkConfig();
+    const suiClient = new SuiClient({ url: rpcUrl });
+
+    const [balance, objects] = await Promise.all([
+      suiClient.getBalance({
+        owner: walletAddress,
+      }),
+      suiClient.getOwnedObjects({
+        owner: walletAddress,
+        options: {
+          showType: true,
+          showContent: true,
+        },
+      }),
+    ]);
+
+    // Format SUI balance to show actual SUI amount (divide by 10^9)
+    const formattedSuiBalance = (Number(balance.totalBalance) / 1_000_000_000).toFixed(2);
+
+    // Process objects and format token balances
+    const tokens = objects.data
+      .filter((obj) => obj.data?.type?.includes("::coin::"))
+      .map((obj) => ({
+        type: obj.data.type,
+        balance: (Number(obj.data.content.fields.balance) / 1_000_000_000).toFixed(2),
+        symbol: obj.data.type.split("::").pop(),
+      }));
+
+    return {
+      address: walletAddress,
+      sui_balance: formattedSuiBalance,
+      tokens,
+      timestamp: new Date().toISOString(),
+    };
+  } catch (error) {
+    console.error("Error fetching wallet balance:", error);
+    return {
+      error: error.message,
+      address: walletAddress,
+      timestamp: new Date().toISOString(),
+    };
+  }
+}
+
 export async function POST(req) {
   try {
     const { message } = await req.json();
@@ -125,7 +190,9 @@ export async function POST(req) {
       message.toLowerCase().includes("search") ||
       message.toLowerCase().includes("find") ||
       message.toLowerCase().includes("what is") ||
-      message.toLowerCase().includes("sui tokens");
+      message.toLowerCase().includes("sui tokens") ||
+      message.toLowerCase().includes("balance for") ||
+      message.toLowerCase().includes("wallet");
 
     if (needsTools) {
       const initialCompletion = await openai.chat.completions.create({
@@ -164,6 +231,8 @@ export async function POST(req) {
                 toolResult = await searchInternet(args.query);
               } else if (toolCall.function.name === "getTrendingTokens") {
                 toolResult = await getTrendingTokens();
+              } else if (toolCall.function.name === "getWalletBalance") {
+                toolResult = await getWalletBalance(args.walletAddress);
               }
 
               console.log("Tool result:", toolResult);
