@@ -4,9 +4,10 @@ import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Terminal, PaperPlaneRight, Circle, Spinner, ArrowClockwise } from "@phosphor-icons/react";
+import { PaperPlaneRight, Circle, ArrowClockwise } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import remarkGfm from "remark-gfm";
+import { quantum } from "ldrs";
 
 export default function ChatBox({ onTypingChange }) {
   const inputRef = useRef(null);
@@ -160,6 +161,10 @@ export default function ChatBox({ onTypingChange }) {
         window.removeEventListener("load", sendInitialMessage);
       }
     };
+  }, []);
+
+  useEffect(() => {
+    quantum.register();
   }, []);
 
   const handleSendMessage = async () => {
@@ -360,8 +365,8 @@ export default function ChatBox({ onTypingChange }) {
         )}
         {isPending && !streamingContent && (
           <div className="flex justify-start">
-            <div className="bg-transparent max-w-[80%] rounded-2xl px-4 py-3 shadow-sm">
-              <Spinner className="w-4 h-4 animate-spin" />
+            <div className="bg-transparent max-w-[80%] rounded-2xl px-4 py-3 shadow-sm rounded-bl-none">
+              <l-quantum size="20" speed="2.00" color="#26b6aa"></l-quantum>
             </div>
           </div>
         )}
