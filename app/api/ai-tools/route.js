@@ -96,6 +96,18 @@ const tools = [
       },
     },
   },
+  {
+    type: "function",
+    function: {
+      name: "getDefiYieldOpportunities",
+      description: "Get analysis of the best DeFi yield opportunities from Navi Protocol",
+      parameters: {
+        type: "object",
+        properties: {}, // No parameters needed
+        required: [],
+      },
+    },
+  },
 ];
 
 async function getDexScreenerData(tokenAddress) {
@@ -254,6 +266,34 @@ async function initiateSuiTransfer(recipientAddress, amount) {
   }
 }
 
+async function getDefiYieldOpportunities() {
+  try {
+    // Get the base URL for the API call
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/api/navi`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch DeFi opportunities");
+    }
+
+    const data = await response.json();
+
+    return {
+      success: true,
+      analysis: data.analysis,
+      opportunities: data.rawData,
+      timestamp: new Date().toISOString(),
+    };
+  } catch (error) {
+    console.error("Error fetching DeFi opportunities:", error);
+    return {
+      success: false,
+      error: error.message,
+      timestamp: new Date().toISOString(),
+    };
+  }
+}
+
 export async function POST(req) {
   try {
     const { message } = await req.json();
@@ -270,7 +310,10 @@ export async function POST(req) {
       message.toLowerCase().includes("wallet") ||
       message.toLowerCase().includes("send") ||
       message.toLowerCase().includes("transfer") ||
-      message.toLowerCase().includes("sui to");
+      message.toLowerCase().includes("sui to") ||
+      message.toLowerCase().includes("yield") ||
+      message.toLowerCase().includes("defi") ||
+      message.toLowerCase().includes("apy");
 
     if (needsTools) {
       const initialCompletion = await openai.chat.completions.create({
@@ -321,6 +364,8 @@ export async function POST(req) {
                 toolResult = await getTrendingTokens();
               } else if (toolCall.function.name === "getWalletBalance") {
                 toolResult = await getWalletBalance(args.walletAddress);
+              } else if (toolCall.function.name === "getDefiYieldOpportunities") {
+                toolResult = await getDefiYieldOpportunities();
               }
 
               console.log("Tool result:", toolResult);

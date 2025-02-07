@@ -7,7 +7,7 @@ const openai = new OpenAI({
   apiKey: "ollama",
 });
 
-const model = "qwen2.5:3b";
+const model = "qwen2.5:1.5b";
 
 async function fetchPoolData() {
   try {
