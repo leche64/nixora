@@ -527,9 +527,9 @@ export default function ChatBox({ onTypingChange }) {
             <div className="flex flex-col gap-1 z-50 max-w-[300px] whitespace-normal !text-wrap text-xs">
               <p>Send Sui tokens to any address directly through chat.</p>
               <br />
-              <p>Try asking: "send 0.0069 sui to</p>
+              <p>Try asking: "send 0.69 sui to</p>
               <code className="break-all bg-black/10 px-1.5 py-0.5 rounded-md">
-                0x069bd5e649525777e5da73c151ff87ac4e82583ca4a5badb3dcab0b2c29c0656"
+                0x914bd0c5cee2e74843dd37eb45e8afe802bfe132f5227888906c703ed8b4b632"
               </code>
             </div>
           }
