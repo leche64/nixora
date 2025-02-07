@@ -14,7 +14,6 @@ export default function Home() {
     <main className="container flex flex-col gap-4 text-black">
       <ChatBox
         onTypingChange={(typing) => {
-          console.log("Typing state:", typing); // Debug log
           setIsTyping(typing);
         }}
       />

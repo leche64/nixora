@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
+import { Toaster } from "sonner";
 import { Providers } from "@/providers";
 const DepatureMono = localFont({
   src: "./fonts/DepartureMono-Regular.woff",
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
           <NavBar />
           {children}
           <Footer />
+          <Toaster />
         </Providers>
       </body>
     </html>

@@ -75,6 +75,27 @@ const tools = [
       },
     },
   },
+  {
+    type: "function",
+    function: {
+      name: "initiateSuiTransfer",
+      description: "Initiate a SUI token transfer to a specified wallet address",
+      parameters: {
+        type: "object",
+        properties: {
+          recipientAddress: {
+            type: "string",
+            description: "The recipient's SUI wallet address",
+          },
+          amount: {
+            type: "string",
+            description: "The amount of SUI to send (in SUI units)",
+          },
+        },
+        required: ["recipientAddress", "amount"],
+      },
+    },
+  },
 ];
 
 async function getDexScreenerData(tokenAddress) {
@@ -192,6 +213,47 @@ async function getWalletBalance(walletAddress) {
   }
 }
 
+async function initiateSuiTransfer(recipientAddress, amount) {
+  try {
+    // Validate inputs
+    if (!recipientAddress || !amount) {
+      throw new Error("Missing required parameters");
+    }
+
+    // Convert amount to number and validate
+    const amountNum = parseFloat(amount);
+    if (isNaN(amountNum) || amountNum <= 0) {
+      throw new Error("Invalid amount specified");
+    }
+
+    return {
+      status: "pending",
+      type: "TRANSFER_REQUEST",
+      details: {
+        recipientAddress,
+        amount: amountNum,
+        token: "SUI",
+        estimatedGas: "0.000001", // Example gas estimate
+        networkFee: "0.00021", // Example network fee
+      },
+      transaction: {
+        from: "user_wallet", // This would be replaced with actual sender
+        to: recipientAddress,
+        value: amountNum,
+      },
+      timestamp: new Date().toISOString(),
+      message: `Request to transfer ${amountNum} SUI to ${recipientAddress}`,
+    };
+  } catch (error) {
+    return {
+      status: "error",
+      type: "TRANSFER_REQUEST",
+      error: error.message,
+      timestamp: new Date().toISOString(),
+    };
+  }
+}
+
 export async function POST(req) {
   try {
     const { message } = await req.json();
@@ -205,7 +267,10 @@ export async function POST(req) {
       message.toLowerCase().includes("what is") ||
       message.toLowerCase().includes("sui tokens") ||
       message.toLowerCase().includes("balance for") ||
-      message.toLowerCase().includes("wallet");
+      message.toLowerCase().includes("wallet") ||
+      message.toLowerCase().includes("send") ||
+      message.toLowerCase().includes("transfer") ||
+      message.toLowerCase().includes("sui to");
 
     if (needsTools) {
       const initialCompletion = await openai.chat.completions.create({
@@ -238,7 +303,17 @@ export async function POST(req) {
               let toolResult;
               const args = JSON.parse(toolCall.function.arguments);
 
-              if (toolCall.function.name === "getDexScreenerData") {
+              if (toolCall.function.name === "initiateSuiTransfer") {
+                toolResult = await initiateSuiTransfer(args.recipientAddress, args.amount);
+                controller.enqueue(
+                  encoder.encode(
+                    JSON.stringify({
+                      type: "tool_result",
+                      data: toolResult,
+                    }) + "\n"
+                  )
+                );
+              } else if (toolCall.function.name === "getDexScreenerData") {
                 toolResult = await getDexScreenerData(args.tokenAddress);
               } else if (toolCall.function.name === "searchInternet") {
                 toolResult = await searchInternet(args.query);

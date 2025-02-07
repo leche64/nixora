@@ -8,6 +8,7 @@ import { PaperPlaneRight, Circle, ArrowClockwise } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import remarkGfm from "remark-gfm";
 import { quantum } from "ldrs";
+import { useSuiTransfer } from "@/components/SuiTransactionHandler";
 
 export default function ChatBox({ onTypingChange }) {
   const inputRef = useRef(null);
@@ -22,6 +23,7 @@ export default function ChatBox({ onTypingChange }) {
   const [isAITyping, setIsAITyping] = useState(false);
   const [userHasScrolled, setUserHasScrolled] = useState(false);
   const initialMessageSent = useRef(false);
+  const { handleTransfer } = useSuiTransfer();
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -68,8 +70,6 @@ export default function ChatBox({ onTypingChange }) {
   }, [messages, isPending]);
 
   useEffect(() => {
-    // Debug log
-    console.log("AI Typing state changed:", isAITyping);
     onTypingChange(isAITyping);
   }, [isAITyping, onTypingChange]);
 
@@ -98,6 +98,7 @@ export default function ChatBox({ onTypingChange }) {
         }
 
         const reader = response.body.getReader();
+        const decoder = new TextDecoder();
         let accumulatedContent = "";
 
         while (true) {
@@ -107,10 +108,27 @@ export default function ChatBox({ onTypingChange }) {
             break;
           }
 
-          const chunk = new TextDecoder().decode(value);
-          accumulatedContent += chunk;
-          tokenCount = Math.ceil(accumulatedContent.length / 4);
-          setStreamingContent(accumulatedContent);
+          const text = decoder.decode(value);
+          try {
+            // Check if the response is a tool result
+            if (text.includes('"type":"tool_result"')) {
+              const toolResponse = JSON.parse(text);
+              console.log("Transfer tool response:", toolResponse.data);
+              // Handle the transfer response specifically
+            } else {
+              // Handle regular chat response
+              console.log("Chat response:", text);
+              accumulatedContent += text;
+              tokenCount = Math.ceil(accumulatedContent.length / 4);
+              setStreamingContent(accumulatedContent);
+            }
+          } catch (e) {
+            // Regular text response
+            console.log("Chat response:", text);
+            accumulatedContent += text;
+            tokenCount = Math.ceil(accumulatedContent.length / 4);
+            setStreamingContent(accumulatedContent);
+          }
         }
 
         const duration = (Date.now() - startTime) / 1000;
@@ -195,20 +213,43 @@ export default function ChatBox({ onTypingChange }) {
         throw new Error("Failed to get response");
       }
 
+      console.log("Response:", response);
+
       const reader = response.body.getReader();
+      const decoder = new TextDecoder();
       let accumulatedContent = "";
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) {
-          setIsAITyping(false); // Set to false when stream ends
+          setIsAITyping(false);
           break;
         }
 
-        const chunk = new TextDecoder().decode(value);
-        accumulatedContent += chunk;
-        tokenCount = Math.ceil(accumulatedContent.length / 4);
-        setStreamingContent(accumulatedContent);
+        const text = decoder.decode(value);
+        console.log("Chunk:", text);
+        try {
+          // Check if the response is a tool result
+          console.log("FILTERCHECK:", text.includes("TRANSFER_REQUEST"));
+          if (text.includes("TRANSFER_REQUEST")) {
+            handleTransfer(text);
+            const toolResponse = JSON.parse(text);
+            console.log("Transfer tool response:", toolResponse.data);
+            // Handle the transfer response specifically
+          } else {
+            // Handle regular chat response
+            console.log("Chat response:", text);
+            accumulatedContent += text;
+            tokenCount = Math.ceil(accumulatedContent.length / 4);
+            setStreamingContent(accumulatedContent);
+          }
+        } catch (e) {
+          // Regular text response
+          console.log("Chat response:", text);
+          accumulatedContent += text;
+          tokenCount = Math.ceil(accumulatedContent.length / 4);
+          setStreamingContent(accumulatedContent);
+        }
       }
 
       const duration = (Date.now() - startTime) / 1000;
