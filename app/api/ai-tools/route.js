@@ -138,7 +138,11 @@ async function getWalletBalance(walletAddress) {
     const { rpcUrl } = getSuiNetworkConfig();
     const suiClient = new SuiClient({ url: rpcUrl });
 
-    const [balance, objects] = await Promise.all([
+    // Get the base URL for the API call
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
+    // Fetch balance, objects, and SUI price in parallel
+    const [balance, objects, suiPriceResponse] = await Promise.all([
       suiClient.getBalance({
         owner: walletAddress,
       }),
@@ -149,10 +153,15 @@ async function getWalletBalance(walletAddress) {
           showContent: true,
         },
       }),
+      fetch(`${baseUrl}/api/sui-price`),
     ]);
+
+    const suiPriceData = await suiPriceResponse.json();
+    const suiPrice = suiPriceData.price;
 
     // Format SUI balance to show actual SUI amount (divide by 10^9)
     const formattedSuiBalance = (Number(balance.totalBalance) / 1_000_000_000).toFixed(2);
+    const totalValueUsd = (Number(formattedSuiBalance) * suiPrice).toFixed(2);
 
     // Process objects and format token balances
     const tokens = objects.data
@@ -166,6 +175,10 @@ async function getWalletBalance(walletAddress) {
     return {
       address: walletAddress,
       sui_balance: formattedSuiBalance,
+      sui_price_usd: suiPrice,
+      total_value_usd: totalValueUsd,
+      price_change_24h: suiPriceData.changePercent24h,
+      price_change_1h: suiPriceData.changePercent1h,
       tokens,
       timestamp: new Date().toISOString(),
     };

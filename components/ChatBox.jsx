@@ -365,8 +365,8 @@ export default function ChatBox({ onTypingChange }) {
         )}
         {isPending && !streamingContent && (
           <div className="flex justify-start">
-            <div className="max-w-[80%] rounded-2xl p-4 shadow-sm rounded-bl-none bg-[#26b6aa]">
-              <l-quantum size="20" speed="2.00" color="black"></l-quantum>
+            <div className="max-w-[80%] rounded-2xl p-3 shadow-sm rounded-bl-none bg-[#26b6aa]">
+              <l-quantum size="17" speed="2.00" color="black"></l-quantum>
             </div>
           </div>
         )}
