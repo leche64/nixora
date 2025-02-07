@@ -9,6 +9,10 @@ import { cn } from "@/lib/utils";
 import remarkGfm from "remark-gfm";
 import { quantum } from "ldrs";
 import { useSuiTransfer } from "@/components/SuiTransactionHandler";
+import TextareaAutosize from "react-textarea-autosize";
+import { Badge } from "@/components/ui/badge";
+import { Tooltip } from "react-tooltip";
+import { Globe, HandCoins, Rocket, Brain } from "@phosphor-icons/react";
 
 export default function ChatBox({ onTypingChange }) {
   const inputRef = useRef(null);
@@ -453,15 +457,25 @@ export default function ChatBox({ onTypingChange }) {
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="flex gap-2 p-2 sm:p-4 border-t-2 border-primary/20">
-        <Input
+      <div className="flex gap-2 p-2 sm:p-4 border border-primary/20 rounded-xl">
+        <TextareaAutosize
           ref={inputRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-          placeholder="Chat with Nixora"
-          className="border-2 border-primary/20 focus-visible:ring-0"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSendMessage();
+            }
+          }}
+          placeholder="Chat with Nixora ◢◣◤◥◸◹◺◿"
+          className="flex w-full rounded-md border-2 border-primary/20 bg-background px-3 py-2 text-sm 
+            ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none 
+            focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 min-h-[40px] max-h-[200px]
+            resize-none"
           disabled={isPending}
+          minRows={1}
+          maxRows={6}
         />
         <Button
           onClick={handleClearChat}
@@ -483,6 +497,43 @@ export default function ChatBox({ onTypingChange }) {
             <PaperPlaneRight className="w-5 h-5 text-primary" />
           )}
         </Button>
+      </div>
+
+      <div className="flex gap-2 px-2 sm:px-4 py-2">
+        <Badge variant="outline" className="gap-1 cursor-help" data-tooltip-id="search-tooltip">
+          <Globe className="w-4 h-4" />
+          Search
+        </Badge>
+        <Tooltip
+          id="search-tooltip"
+          place="top"
+          content={
+            <div className="flex flex-col gap-1 z-50 max-w-[200px] whitespace-normal !text-wrap text-xs">
+              <p>Search the internet for any topic in real time.</p>
+              <br />
+              <p>Try asking: "search for luka doncic trade"</p>
+            </div>
+          }
+        />
+
+        <Badge variant="outline" className="gap-1 cursor-help" data-tooltip-id="sui-tooltip">
+          <HandCoins className="w-4 h-4" />
+          Send Sui
+        </Badge>
+        <Tooltip
+          id="sui-tooltip"
+          place="top"
+          content={
+            <div className="flex flex-col gap-1 z-50 max-w-[300px] whitespace-normal !text-wrap text-xs">
+              <p>Send Sui tokens to any address directly through chat.</p>
+              <br />
+              <p>Try asking: "send 0.0069 sui to</p>
+              <code className="break-all bg-black/10 px-1.5 py-0.5 rounded-md">
+                0x069bd5e649525777e5da73c151ff87ac4e82583ca4a5badb3dcab0b2c29c0656"
+              </code>
+            </div>
+          }
+        />
       </div>
     </div>
   );
