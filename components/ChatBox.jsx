@@ -459,7 +459,7 @@ export default function ChatBox({ onTypingChange }) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-          placeholder="Type command..."
+          placeholder="Chat with Nixora"
           className="border-2 border-primary/20 focus-visible:ring-0"
           disabled={isPending}
         />
