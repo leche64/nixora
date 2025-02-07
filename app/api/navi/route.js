@@ -78,7 +78,7 @@ Please provide a concise analysis with specific recommendations.`;
     console.log("🔍 Prompt:", prompt);
     // Get AI analysis
     console.log("🤖 Requesting AI analysis...");
-    const completion = await openai.chat.completions.create({
+    const aiPromise = openai.chat.completions.create({
       model: model,
       messages: [
         {
@@ -92,7 +92,13 @@ Please provide a concise analysis with specific recommendations.`;
         },
       ],
       temperature: 0.7,
+      timeout: 120000, // 2 minute timeout
     });
+
+    const completion = await Promise.race([
+      aiPromise,
+      new Promise((_, reject) => setTimeout(() => reject(new Error("AI analysis timeout")), 120000)),
+    ]);
     console.log(`🎯 AI analysis completed in ${(performance.now() - aiStartTime).toFixed(2)}ms`);
 
     const totalTime = performance.now() - startTime;
