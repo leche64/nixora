@@ -315,57 +315,53 @@ async function handleToolCall(toolCall) {
         }))
         .filter((result) => result.content && result.score > 0.5);
 
+      // Sort by relevance score
       cleanedResults.sort((a, b) => b.score - a.score);
 
+      // Combine relevant information with context
+      const combinedContent = cleanedResults
+        .slice(0, 3)
+        .map((result) => `Context from ${result.title}:\n${result.content}`)
+        .join("\n\n");
+
+      // Generate a comprehensive summary using the combined content
+      const summaryResponse = await fetch(`${BASE_URL}/chat/completions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: MODEL_LLAMA,
+          messages: [
+            {
+              role: "system",
+              content:
+                "You are a helpful assistant that creates comprehensive yet concise summaries. Synthesize the information from multiple sources into a coherent response. Focus on key points and maintain factual accuracy.",
+            },
+            {
+              role: "user",
+              content: `Please provide a comprehensive summary of this information about "${args.query}":\n\n${combinedContent}`,
+            },
+          ],
+          temperature: 0.3,
+          max_tokens: 500,
+        }),
+      });
+
+      const summaryData = await summaryResponse.json();
+      const summary = summaryData.choices[0]?.message?.content || "Summary unavailable.";
+
       let formattedResponse = "Here's what I found:\n\n";
-
-      // Add the AI-generated answer if available
-      if (response.answer) {
-        formattedResponse += `${response.answer.trim()}\n\n`;
-      }
-
-      formattedResponse += "Article Summaries:\n";
-
-      for (const [index, result] of cleanedResults.slice(0, 3).entries()) {
-        // Generate summary using Atoma API
-        const summaryResponse = await fetch(`${BASE_URL}/chat/completions`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${API_KEY}`,
-          },
-          body: JSON.stringify({
-            model: MODEL_LLAMA,
-            messages: [
-              {
-                role: "system",
-                content:
-                  "You are a helpful assistant that creates concise, informative summaries. Focus on key points and maintain factual accuracy.",
-              },
-              {
-                role: "user",
-                content: `Please provide a 2-3 sentence summary of this article: ${result.content}`,
-              },
-            ],
-            temperature: 0.3,
-            max_tokens: 150,
-          }),
-        });
-
-        const summaryData = await summaryResponse.json();
-        const summary = summaryData.choices[0]?.message?.content || "Summary unavailable.";
-
-        formattedResponse += `\n${index + 1}. ${result.title}\n`;
-        formattedResponse += `   Summary: ${summary.trim()}\n`;
-      }
+      formattedResponse += `${summary.trim()}\n\n`;
 
       // Add sources with relevance scores
-      formattedResponse += "\nSources:\n";
-      cleanedResults.forEach((result, index) => {
+      formattedResponse += "Sources:\n";
+      cleanedResults.slice(0, 3).forEach((result, index) => {
         const date = result.published_date ? ` (${result.published_date})` : "";
         formattedResponse += `${index + 1}. ${result.title}${date}\n`;
         formattedResponse += `   Relevance: ${result.score.toFixed(2)}\n`;
-        formattedResponse += `   ${result.url}\n`;
+        formattedResponse += `   ${result.url}\n\n`;
       });
 
       return formattedResponse;
