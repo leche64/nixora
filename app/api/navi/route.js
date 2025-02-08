@@ -79,7 +79,8 @@ export async function GET() {
 Pool Data:
 ${JSON.stringify(formattedPools, null, 2)}
 
-Please provide a concise analysis with specific recommendations.`;
+Please provide a concise analysis with specific recommendations. End your analysis with:
+"View all markets and start earning at https://app.naviprotocol.io/market"`;
 
     // Get AI analysis
     console.log("🤖 Requesting AI analysis...");
@@ -89,7 +90,7 @@ Please provide a concise analysis with specific recommendations.`;
         {
           role: "system",
           content:
-            "You are a DeFi expert analyzing yield opportunities. Provide clear, actionable insights based on the data provided.",
+            "You are a DeFi expert analyzing yield opportunities. Provide clear, actionable insights based on the data provided. Always include a link to NAVI's market page in your analysis.",
         },
         {
           role: "user",
