@@ -313,28 +313,32 @@ async function handleToolCall(toolCall) {
           url: result.url,
           published_date: result.published_date,
         }))
-        .filter((result) => result.content && result.score > 0.5); // Filter low-quality results
+        .filter((result) => result.content && result.score > 0.5);
 
-      // Sort by relevance score
       cleanedResults.sort((a, b) => b.score - a.score);
       console.log("Cleaned results:", cleanedResults);
-      let formattedResponse = "Here's what I found:";
+
+      let formattedResponse = "Here's what I found:\n\n";
 
       // Add the AI-generated answer if available
       if (response.answer) {
-        formattedResponse += `${response.answer}\n`;
+        formattedResponse += `${response.answer}\n\n`;
       }
 
       // Add summaries from top results
+      formattedResponse += "Top Results:";
       cleanedResults.slice(0, 3).forEach((result, index) => {
-        formattedResponse += `\n${index + 1}. From ${result.title}:\n${result.content.slice(0, 300)}...\n`;
+        formattedResponse += `${index + 1}. ${result.title}\n`;
+        formattedResponse += `${result.content.slice(0, 300)}...\n`;
       });
 
       // Add sources with relevance scores
-      formattedResponse += "\nSources (sorted by relevance):\n";
-      cleanedResults.forEach((result) => {
-        const date = result.published_date ? ` (Published: ${result.published_date})` : "";
-        formattedResponse += `- ${result.title}${date}\n  Score: ${result.score.toFixed(2)}\n  URL: ${result.url}\n`;
+      formattedResponse += "\nSources:\n";
+      cleanedResults.forEach((result, index) => {
+        const date = result.published_date ? ` (${result.published_date})` : "";
+        formattedResponse += `\n${index + 1}. ${result.title}${date}`;
+        formattedResponse += `   Relevance: ${result.score.toFixed(2)}\n`;
+        formattedResponse += `   ${result.url}\n`;
       });
 
       return formattedResponse;
