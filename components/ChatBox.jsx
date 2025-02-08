@@ -561,8 +561,8 @@ export default function ChatBox({ onTypingChange }) {
           content={
             <div className="flex flex-col gap-1 z-50 max-w-[300px] whitespace-normal !text-wrap text-xs">
               <p>
-                Powered by open sourced models (Llama3.3, DeepSeek R1, FLUX.1) running on Atoma network, decentralized
-                AI private cloud provider.
+                Powered by open source models (Llama3.3, DeepSeek R1, FLUX.1) running on Atoma network, decentralized AI
+                private cloud provider.
               </p>
             </div>
           }
