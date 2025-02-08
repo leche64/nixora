@@ -282,7 +282,6 @@ async function handleToolCall(toolCall) {
 
   if (toolCall.function.name === "getCryptoPrice") {
     try {
-      // Clean up the arguments string to ensure valid JSON
       const argsString = toolCall.function.arguments.replace(/\s+/g, " ").trim();
       const args = JSON.parse(argsString);
       const symbol = args.symbol?.toUpperCase();
@@ -291,7 +290,7 @@ async function handleToolCall(toolCall) {
         return "Sorry, I couldn't determine which cryptocurrency to look up.";
       }
 
-      console.log("Fetching price for symbol:", symbol); // Debug log
+      console.log("Fetching price for symbol:", symbol);
       const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/crypto-price?symbol=${symbol}`);
       const data = await response.json();
 
@@ -299,9 +298,37 @@ async function handleToolCall(toolCall) {
         return `Sorry, I couldn't fetch the price for ${symbol}. ${data.error}`;
       }
 
-      return `The current price of ${symbol} is $${data.price.toFixed(2)}. 
-24h change: ${data.changePercent24h.toFixed(2)}%
-1h change: ${data.changePercent1h.toFixed(2)}%`;
+      // Send the price data to AI for analysis
+      const aiResponse = await fetch(`${BASE_URL}/chat/completions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: MODEL_LLAMA,
+          messages: [
+            {
+              role: "system",
+              content:
+                "You are a helpful crypto market analyst. Analyze the given price data and provide insights about the price movements. Be concise but informative.",
+            },
+            {
+              role: "user",
+              content: `Please analyze this price data for ${symbol}:
+                Current Price: $${data.price}
+                24h Change: ${data.changePercent24h}%
+                1h Change: ${data.changePercent1h}%
+                Market Cap: $${data.marketCap}`,
+            },
+          ],
+          temperature: 0.7,
+          max_tokens: 200,
+        }),
+      });
+
+      const aiData = await aiResponse.json();
+      return aiData.choices[0]?.message?.content || "Sorry, I couldn't analyze the price data.";
     } catch (error) {
       console.error("Error in getCryptoPrice:", error);
       return "Sorry, I encountered an error while fetching the cryptocurrency price.";

@@ -8,6 +8,7 @@ export const revalidate = 0;
  * @property {number} price - Current crypto price in USD
  * @property {number} changePercent24h - 24-hour price change percentage
  * @property {number} changePercent1h - 1-hour price change percentage
+ * @property {number} marketCap - Market capitalization in USD
  */
 
 export async function GET(request) {
@@ -42,6 +43,7 @@ export async function GET(request) {
       price: data.RAW[symbol].USD.PRICE,
       changePercent24h: data.RAW[symbol].USD.CHANGEPCT24HOUR,
       changePercent1h: data.RAW[symbol].USD.CHANGEPCTHOUR,
+      marketCap: data.RAW[symbol].USD.MKTCAP,
     });
   } catch (error) {
     console.error(`Error fetching ${symbol} price:`, error);
