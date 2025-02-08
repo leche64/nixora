@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PaperPlaneRight, Circle, Trash } from "@phosphor-icons/react";
-import { cn } from "@/lib/utils";
+import { cn, generateAvatar } from "@/lib/utils";
 import remarkGfm from "remark-gfm";
 import { quantum } from "ldrs";
 import { useSuiTransfer } from "@/components/SuiTransactionHandler";
@@ -29,6 +29,7 @@ export default function ChatBox({ onTypingChange }) {
   const [userHasScrolled, setUserHasScrolled] = useState(false);
   const initialMessageSent = useRef(false);
   const { handleTransfer } = useSuiTransfer();
+  const [userAvatar, setUserAvatar] = useState("");
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -188,6 +189,13 @@ export default function ChatBox({ onTypingChange }) {
 
   useEffect(() => {
     quantum.register();
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const dummyAddress = "0x914bd0c5cee2e74843dd37eb45e8afe802bfe132f5227888906c703ed8b4b632";
+      setUserAvatar(generateAvatar(dummyAddress));
+    }
   }, []);
 
   const handleSendMessage = async () => {
@@ -356,14 +364,21 @@ export default function ChatBox({ onTypingChange }) {
             className={cn("flex w-full flex-col", message.type === "user" ? "items-end" : "items-start")}
           >
             <div className="flex items-start gap-2">
-              {message.type === "ai" && (
+              {message.type === "ai" ? (
                 <Avatar className="h-8 w-8 border-2 border-primary/20">
                   <AvatarImage src="/nixora-logo.svg" alt="Nixora" className="p-0.5" />
                   <AvatarFallback>NX</AvatarFallback>
                 </Avatar>
+              ) : (
+                <div className="order-2 ml-2">
+                  <Avatar className="h-8 w-8 border-2 border-primary/20">
+                    <AvatarImage src={userAvatar} alt="User" />
+                    <AvatarFallback>U</AvatarFallback>
+                  </Avatar>
+                </div>
               )}
               <div className="flex flex-col gap-1">
-                {message.type === "ai" && (
+                {message.type === "ai" ? (
                   <div className="flex items-center gap-2">
                     <h2 className="text-xs font-semibold text-primary">Nixora</h2>
                     {message.stats && (
@@ -378,12 +393,14 @@ export default function ChatBox({ onTypingChange }) {
                       </div>
                     )}
                   </div>
+                ) : (
+                  <h2 className="text-xs font-semibold text-primary text-right">0x914b...b632</h2>
                 )}
                 <div
                   className={cn(
                     "flex max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
                     message.type === "user"
-                      ? "bg-[#d891a0] text-black rounded-2xl rounded-br-none"
+                      ? "bg-[#d891a0] text-black rounded-2xl rounded-tr-none"
                       : "bg-[#26b6aa] text-black rounded-2xl rounded-tl-none",
                     "shadow-sm",
                     "break-words whitespace-pre-wrap overflow-hidden"
