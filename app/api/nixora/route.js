@@ -337,11 +337,11 @@ async function handleToolCall(toolCall) {
             {
               role: "system",
               content:
-                "You are a helpful assistant that creates comprehensive yet concise summaries. Synthesize the information from multiple sources into a coherent response. Focus on key points and maintain factual accuracy.",
+                "You are a helpful assistant that creates concise summaries. Synthesize the information from multiple sources into a coherent response. Focus on key points and maintain factual accuracy.",
             },
             {
               role: "user",
-              content: `Please provide a comprehensive summary of this information about "${args.query}":\n\n${combinedContent}`,
+              content: `Provide a concise summary of this information about "${args.query}":\n\n${combinedContent}`,
             },
           ],
           temperature: 0.3,
@@ -352,14 +352,13 @@ async function handleToolCall(toolCall) {
       const summaryData = await summaryResponse.json();
       const summary = summaryData.choices[0]?.message?.content || "Summary unavailable.";
 
-      let formattedResponse = "Here's what I found:\n\n";
-      formattedResponse += `${summary.trim()}\n\n`;
+      let formattedResponse = `${summary.trim()}\n\n`;
 
       // Add sources with relevance scores
       formattedResponse += "Sources:\n";
       cleanedResults.slice(0, 3).forEach((result, index) => {
         const date = result.published_date ? ` (${result.published_date})` : "";
-        formattedResponse += `${index + 1}. ${result.title}${date}\n`;
+        formattedResponse += `${index + 1}. ${result.title}${date}`;
         formattedResponse += `   Relevance: ${result.score.toFixed(2)}\n`;
         formattedResponse += `   ${result.url}\n\n`;
       });
