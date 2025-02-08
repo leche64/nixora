@@ -6,7 +6,8 @@ import { getSuiNetworkConfig } from "@/lib/utils";
 
 const BASE_URL = "https://api.atoma.network/v1";
 const API_KEY = "gKuPUDzvVkcRfNo5rctfB9wQ8a7Ls3";
-const MODEL = "meta-llama/Llama-3.3-70B-Instruct";
+const MODEL_LLAMA = "meta-llama/Llama-3.3-70B-Instruct";
+const MODEL_DEEPSEEK = "deepseek-ai/DeepSeek-R1";
 
 const tools = [
   {
@@ -59,7 +60,7 @@ export async function POST(req) {
           Authorization: `Bearer ${API_KEY}`,
         },
         body: JSON.stringify({
-          model: MODEL,
+          model: MODEL_LLAMA,
           messages: [
             {
               role: "system",
@@ -175,7 +176,7 @@ export async function POST(req) {
           Authorization: `Bearer ${API_KEY}`,
         },
         body: JSON.stringify({
-          model: MODEL,
+          model: MODEL_LLAMA,
           messages: [
             {
               role: "system",
