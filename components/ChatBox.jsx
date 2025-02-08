@@ -454,13 +454,13 @@ export default function ChatBox({ onTypingChange }) {
                 <h2 className="text-xs font-semibold text-primary">Nixora</h2>
                 <div
                   className={cn(
-                    "flex max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
+                    "flex max-w-[95%] sm:max-w-[85%] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
                     "bg-[#26b6aa] text-black rounded-2xl rounded-tl-none",
                     "shadow-sm",
                     "break-words whitespace-pre-wrap overflow-hidden"
                   )}
                 >
-                  <div className="w-full prose prose-xs dark:prose-invert">
+                  <div className="w-full prose prose-xs dark:prose-invert [overflow-wrap:anywhere]">
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
                       components={{
@@ -471,7 +471,10 @@ export default function ChatBox({ onTypingChange }) {
                         ),
                         code: ({ node, inline, ...props }) =>
                           inline ? (
-                            <code className="px-1 rounded-md bg-black/10 dark:bg-white/10 break-normal" {...props} />
+                            <code
+                              className="px-1 rounded-md bg-black/10 dark:bg-white/10 [overflow-wrap:anywhere]"
+                              {...props}
+                            />
                           ) : (
                             <code
                               className="block overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted-foreground/20"
