@@ -409,28 +409,25 @@ export default function ChatBox({ onTypingChange }) {
                     "break-words whitespace-pre-wrap overflow-hidden"
                   )}
                 >
-                  <div className="w-full prose prose-xs dark:prose-invert break-all">
+                  <div className="w-full prose prose-xs dark:prose-invert">
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
                       components={{
                         pre: ({ node, ...props }) => (
                           <div className="p-2 my-2 overflow-auto rounded-lg bg-black/10 dark:bg-white/10">
-                            <pre {...props} className="whitespace-pre-wrap break-all" />
+                            <pre {...props} className="whitespace-pre-wrap" />
                           </div>
                         ),
                         code: ({ node, inline, ...props }) =>
                           inline ? (
-                            <code
-                              className="px-1 rounded-md bg-black/10 dark:bg-white/10 break-all hyphens-auto w-full"
-                              {...props}
-                            />
+                            <code className="px-1 rounded-md bg-black/10 dark:bg-white/10 break-normal" {...props} />
                           ) : (
                             <code
-                              className="block overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted-foreground/20 break-all"
+                              className="block overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted-foreground/20"
                               {...props}
                             />
                           ),
-                        p: ({ node, ...props }) => <p className="mb-4 last:mb-0 break-all" {...props} />,
+                        p: ({ node, ...props }) => <p className="mb-4 last:mb-0 break-normal" {...props} />,
                         ul: ({ node, ...props }) => <ul className="mb-4 pl-6 list-disc last:mb-0" {...props} />,
                         ol: ({ node, ...props }) => <ol className="mb-4 pl-8 list-decimal last:mb-0" {...props} />,
                       }}
@@ -460,21 +457,18 @@ export default function ChatBox({ onTypingChange }) {
                     "break-words whitespace-pre-wrap overflow-hidden"
                   )}
                 >
-                  <div className="w-full prose prose-xs dark:prose-invert break-all">
+                  <div className="w-full prose prose-xs dark:prose-invert">
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
                       components={{
                         pre: ({ node, ...props }) => (
                           <div className="p-2 my-2 overflow-auto rounded-lg bg-black/10 dark:bg-white/10">
-                            <pre {...props} className="whitespace-pre-wrap break-words" />
+                            <pre {...props} className="whitespace-pre-wrap" />
                           </div>
                         ),
                         code: ({ node, inline, ...props }) =>
                           inline ? (
-                            <code
-                              className="px-1 rounded-md bg-black/10 dark:bg-white/10 break-words hyphens-auto w-full"
-                              {...props}
-                            />
+                            <code className="px-1 rounded-md bg-black/10 dark:bg-white/10 break-normal" {...props} />
                           ) : (
                             <code
                               className="block overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted-foreground/20"
