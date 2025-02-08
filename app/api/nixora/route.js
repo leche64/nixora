@@ -66,6 +66,24 @@ const tools = [
       },
     },
   },
+  {
+    type: "function",
+    function: {
+      name: "getDefiYieldOpportunities",
+      description: "Get current DeFi yield opportunities and analysis from Navi Protocol",
+      parameters: {
+        type: "object",
+        properties: {
+          type: {
+            type: "string",
+            description: "Type of yield information (supply, borrow, or all)",
+            enum: ["supply", "borrow", "all"],
+          },
+        },
+        required: ["type"],
+      },
+    },
+  },
 ];
 
 export async function POST(req) {
@@ -418,6 +436,21 @@ Please confirm this transaction in your wallet.
     } catch (error) {
       console.error("Error in initiateSuiTransfer:", error);
       return "Sorry, I encountered an error while preparing the SUI transfer.";
+    }
+  } else if (toolCall.function.name === "getDefiYieldOpportunities") {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/navi`);
+      const data = await response.json();
+
+      if (!data.success) {
+        return "Sorry, I couldn't fetch the DeFi yield information at this time.";
+      }
+
+      // Return both the AI analysis and raw data for context
+      return `Here's the current DeFi yield analysis:\n\n${data.analysis}`;
+    } catch (error) {
+      console.error("Error in getDefiYieldOpportunities:", error);
+      return "Sorry, I encountered an error while fetching DeFi yield information.";
     }
   }
   return "I'm not sure how to handle that request.";

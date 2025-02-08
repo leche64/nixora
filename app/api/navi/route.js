@@ -2,12 +2,17 @@ import { OpenAI } from "openai";
 import { NextResponse } from "next/server";
 
 // Initialize OpenAI client with Ollama
+// const openai = new OpenAI({
+//   baseURL: "http://localhost:11434/v1",
+//   apiKey: "ollama",
+// });
+
 const openai = new OpenAI({
-  baseURL: "http://localhost:11434/v1",
-  apiKey: "ollama",
+  baseURL: "https://api.atoma.network/v1",
+  apiKey: process.env.ATOMA_API_KEY,
 });
 
-const model = "qwen2.5:1.5b";
+const model = "meta-llama/Llama-3.3-70B-Instruct";
 
 async function fetchPoolData() {
   try {
@@ -48,7 +53,7 @@ function formatPoolDataForAI(pools) {
       };
     })
     .sort((a, b) => b.supplyAPY - a.supplyAPY)
-    .slice(0, 5); // Only return top 5 pools
+    .slice(0, 15); // Only return top 15 pools
 }
 
 export async function GET() {
@@ -75,7 +80,7 @@ Pool Data:
 ${JSON.stringify(formattedPools, null, 2)}
 
 Please provide a concise analysis with specific recommendations.`;
-    console.log("🔍 Prompt:", prompt);
+
     // Get AI analysis
     console.log("🤖 Requesting AI analysis...");
     const aiPromise = openai.chat.completions.create({
@@ -92,7 +97,7 @@ Please provide a concise analysis with specific recommendations.`;
         },
       ],
       temperature: 0.7,
-      timeout: 120000, // 2 minute timeout
+      timeout: 120000,
     });
 
     const completion = await Promise.race([
@@ -104,11 +109,10 @@ Please provide a concise analysis with specific recommendations.`;
     const totalTime = performance.now() - startTime;
     console.log(`✨ Total processing time: ${totalTime.toFixed(2)}ms`);
 
-    // Return the analysis with timing information
+    // Return only the analysis without raw data
     return NextResponse.json({
       success: true,
       analysis: completion.choices[0].message.content,
-      rawData: formattedPools,
       timing: {
         total: totalTime,
         dataProcessing: fetchStartTime - startTime,

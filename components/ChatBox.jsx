@@ -602,7 +602,7 @@ export default function ChatBox({ onTypingChange }) {
             <div className="flex flex-col gap-1 z-50 max-w-[200px] whitespace-normal !text-wrap text-xs">
               <p>Find DeFi yield and rates across NAVI protocol.</p>
               <br />
-              <p>Try asking: "find me the best yield on NAVI protocol"</p>
+              <p>Try asking: "find me the defi yield"</p>
             </div>
           }
         />
