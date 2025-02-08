@@ -13,6 +13,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip } from "react-tooltip";
 import { Globe, HandCoins, Rocket, Brain, Drop } from "@phosphor-icons/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function ChatBox({ onTypingChange }) {
   const inputRef = useRef(null);
@@ -354,44 +355,52 @@ export default function ChatBox({ onTypingChange }) {
             key={index}
             className={cn("flex w-full flex-col", message.type === "user" ? "items-end" : "items-start")}
           >
-            <div
-              className={cn(
-                "flex max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
-                message.type === "user"
-                  ? "bg-[#d891a0] text-black rounded-2xl rounded-br-none"
-                  : "bg-[#26b6aa] text-black rounded-2xl rounded-bl-none",
-                "shadow-sm",
-                "break-words whitespace-pre-wrap overflow-hidden"
+            <div className="flex items-start gap-2">
+              {message.type === "ai" && (
+                <Avatar className="h-8 w-8 border-2 border-primary/20">
+                  <AvatarImage src="/nixora-logo.svg" alt="Nixora" className="p-0.5" />
+                  <AvatarFallback>NX</AvatarFallback>
+                </Avatar>
               )}
-            >
-              <div className="w-full prose prose-xs dark:prose-invert break-all">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    pre: ({ node, ...props }) => (
-                      <div className="p-2 my-2 overflow-auto rounded-lg bg-black/10 dark:bg-white/10">
-                        <pre {...props} className="whitespace-pre-wrap break-all" />
-                      </div>
-                    ),
-                    code: ({ node, inline, ...props }) =>
-                      inline ? (
-                        <code
-                          className="px-1 rounded-md bg-black/10 dark:bg-white/10 break-all hyphens-auto w-full"
-                          {...props}
-                        />
-                      ) : (
-                        <code
-                          className="block overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted-foreground/20 break-all"
-                          {...props}
-                        />
+              <div
+                className={cn(
+                  "flex max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
+                  message.type === "user"
+                    ? "bg-[#d891a0] text-black rounded-2xl rounded-br-none"
+                    : "bg-[#26b6aa] text-black rounded-2xl rounded-tl-none",
+                  "shadow-sm",
+                  "break-words whitespace-pre-wrap overflow-hidden"
+                )}
+              >
+                <div className="w-full prose prose-xs dark:prose-invert break-all">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      pre: ({ node, ...props }) => (
+                        <div className="p-2 my-2 overflow-auto rounded-lg bg-black/10 dark:bg-white/10">
+                          <pre {...props} className="whitespace-pre-wrap break-all" />
+                        </div>
                       ),
-                    p: ({ node, ...props }) => <p className="mb-4 last:mb-0 break-all" {...props} />,
-                    ul: ({ node, ...props }) => <ul className="mb-4 pl-6 list-disc last:mb-0" {...props} />,
-                    ol: ({ node, ...props }) => <ol className="mb-4 pl-8 list-decimal last:mb-0" {...props} />,
-                  }}
-                >
-                  {message.content}
-                </ReactMarkdown>
+                      code: ({ node, inline, ...props }) =>
+                        inline ? (
+                          <code
+                            className="px-1 rounded-md bg-black/10 dark:bg-white/10 break-all hyphens-auto w-full"
+                            {...props}
+                          />
+                        ) : (
+                          <code
+                            className="block overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted-foreground/20 break-all"
+                            {...props}
+                          />
+                        ),
+                      p: ({ node, ...props }) => <p className="mb-4 last:mb-0 break-all" {...props} />,
+                      ul: ({ node, ...props }) => <ul className="mb-4 pl-6 list-disc last:mb-0" {...props} />,
+                      ol: ({ node, ...props }) => <ol className="mb-4 pl-8 list-decimal last:mb-0" {...props} />,
+                    }}
+                  >
+                    {message.content}
+                  </ReactMarkdown>
+                </div>
               </div>
             </div>
             {message.type === "ai" && message.stats && (
@@ -407,50 +416,62 @@ export default function ChatBox({ onTypingChange }) {
         ))}
         {streamingContent && (
           <div className="flex justify-start">
-            <div
-              className={cn(
-                "flex max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
-                "bg-[#26b6aa] text-black rounded-2xl rounded-bl-none",
-                "shadow-sm",
-                "break-words whitespace-pre-wrap overflow-hidden"
-              )}
-            >
-              <div className="w-full prose prose-xs dark:prose-invert break-all">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    pre: ({ node, ...props }) => (
-                      <div className="p-2 my-2 overflow-auto rounded-lg bg-black/10 dark:bg-white/10">
-                        <pre {...props} className="whitespace-pre-wrap break-words" />
-                      </div>
-                    ),
-                    code: ({ node, inline, ...props }) =>
-                      inline ? (
-                        <code
-                          className="px-1 rounded-md bg-black/10 dark:bg-white/10 break-words hyphens-auto w-full"
-                          {...props}
-                        />
-                      ) : (
-                        <code
-                          className="block overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted-foreground/20"
-                          {...props}
-                        />
+            <div className="flex items-start gap-2">
+              <Avatar className="h-8 w-8 border-2 border-primary/20">
+                <AvatarImage src="/nixora-logo.svg" alt="Nixora" className="p-0.5" />
+                <AvatarFallback>NX</AvatarFallback>
+              </Avatar>
+              <div
+                className={cn(
+                  "flex max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
+                  "bg-[#26b6aa] text-black rounded-2xl rounded-tl-none",
+                  "shadow-sm",
+                  "break-words whitespace-pre-wrap overflow-hidden"
+                )}
+              >
+                <div className="w-full prose prose-xs dark:prose-invert break-all">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      pre: ({ node, ...props }) => (
+                        <div className="p-2 my-2 overflow-auto rounded-lg bg-black/10 dark:bg-white/10">
+                          <pre {...props} className="whitespace-pre-wrap break-words" />
+                        </div>
                       ),
-                    p: ({ node, ...props }) => <p className="mb-4 last:mb-0" {...props} />,
-                    ul: ({ node, ...props }) => <ul className="mb-4 pl-6 list-disc last:mb-0" {...props} />,
-                    ol: ({ node, ...props }) => <ol className="mb-4 pl-8 list-decimal last:mb-0" {...props} />,
-                  }}
-                >
-                  {streamingContent}
-                </ReactMarkdown>
+                      code: ({ node, inline, ...props }) =>
+                        inline ? (
+                          <code
+                            className="px-1 rounded-md bg-black/10 dark:bg-white/10 break-words hyphens-auto w-full"
+                            {...props}
+                          />
+                        ) : (
+                          <code
+                            className="block overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted-foreground/20"
+                            {...props}
+                          />
+                        ),
+                      p: ({ node, ...props }) => <p className="mb-4 last:mb-0" {...props} />,
+                      ul: ({ node, ...props }) => <ul className="mb-4 pl-6 list-disc last:mb-0" {...props} />,
+                      ol: ({ node, ...props }) => <ol className="mb-4 pl-8 list-decimal last:mb-0" {...props} />,
+                    }}
+                  >
+                    {streamingContent}
+                  </ReactMarkdown>
+                </div>
               </div>
             </div>
           </div>
         )}
         {isPending && !streamingContent && (
           <div className="flex justify-start">
-            <div className="max-w-[80%] rounded-2xl p-3 shadow-sm rounded-bl-none bg-[#26b6aa]">
-              <l-quantum size="17" speed="2.00" color="black"></l-quantum>
+            <div className="flex items-start gap-2">
+              <Avatar className="h-8 w-8 border-2 border-primary/20">
+                <AvatarImage src="/nixora-logo.svg" alt="Nixora" className="p-0.5" />
+                <AvatarFallback>NX</AvatarFallback>
+              </Avatar>
+              <div className="max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 shadow-sm bg-[#26b6aa] rounded-2xl rounded-tl-none">
+                <l-quantum size="17" speed="2.00" color="black"></l-quantum>
+              </div>
             </div>
           </div>
         )}
