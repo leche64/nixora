@@ -243,62 +243,35 @@ export default function ChatBoxAtoma({ onTypingChange }) {
         const text = decoder.decode(value);
         console.log("Chunk:", text);
         try {
-          // Check if the response is a tool result
-          console.log("FILTERCHECK:", text.includes("TRANSFER_REQUEST"));
+          // Check if the text contains "TRANSFER_REQUEST" in a more robust way
           if (text.includes("TRANSFER_REQUEST")) {
-            const toolCall = JSON.parse(text);
-            if (toolCall.tool_calls?.[0]?.function?.arguments) {
-              const args = JSON.parse(toolCall.tool_calls[0].function.arguments);
+            console.log("Transfer text received:", text); // Debug log
 
-              // Debug log the original amount
-              console.log("Original amount from AI:", args.amount);
+            // Find the JSON object in the text
+            const jsonStart = text.indexOf("{");
+            const jsonEnd = text.lastIndexOf("}") + 1;
+            const jsonStr = text.slice(jsonStart, jsonEnd);
 
-              // Ensure amount is properly parsed as decimal and maintain precision
-              let normalizedAmount =
-                typeof args.amount === "string"
-                  ? parseFloat(args.amount.replace(/[^0-9.]/g, ""))
-                  : parseFloat(args.amount);
+            // Parse and handle the transfer request
+            const transferRequest = JSON.parse(jsonStr);
+            console.log("Parsed transfer request:", transferRequest); // Debug log
 
-              // IMPORTANT: Do not modify the original value
-              // This was causing the issue where 0.01 became 10
+            // Trigger the wallet interaction
+            const result = await handleTransfer(transferRequest);
+            console.log("Transfer result:", result); // Debug log
 
-              // Create new normalized tool call
-              const normalizedText = JSON.stringify({
-                ...toolCall,
-                tool_calls: [
-                  {
-                    ...toolCall.tool_calls[0],
-                    function: {
-                      ...toolCall.tool_calls[0].function,
-                      arguments: JSON.stringify({
-                        ...args,
-                        amount: normalizedAmount.toString(), // Keep original precision
-                      }),
-                    },
-                  },
-                ],
-              });
-
-              // Debug log the final tool call
-              console.log("Normalized tool call:", normalizedText);
-
-              handleTransfer(normalizedText);
-            } else {
-              handleTransfer(text);
-            }
-            const toolResponse = JSON.parse(text);
-            console.log("Transfer tool response:", toolResponse.data);
-            // Handle the transfer response specifically
-          } else {
-            // Handle regular chat response
-            console.log("Chat response:", text);
-            accumulatedContent += text;
-            tokenCount = Math.ceil(accumulatedContent.length / 4);
-            setStreamingContent(accumulatedContent);
+            // Skip adding the transfer request to chat
+            continue;
           }
-        } catch (e) {
-          // Regular text response
+
+          // Handle regular chat response
           console.log("Chat response:", text);
+          accumulatedContent += text;
+          tokenCount = Math.ceil(accumulatedContent.length / 4);
+          setStreamingContent(accumulatedContent);
+        } catch (e) {
+          console.error("Error processing message:", e);
+          // If JSON parsing fails, treat as regular text
           accumulatedContent += text;
           tokenCount = Math.ceil(accumulatedContent.length / 4);
           setStreamingContent(accumulatedContent);

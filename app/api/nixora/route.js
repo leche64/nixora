@@ -28,6 +28,44 @@ const tools = [
       },
     },
   },
+  {
+    type: "function",
+    function: {
+      name: "searchInternet",
+      description: "Search the internet for information about any topic using Tavily Search API",
+      parameters: {
+        type: "object",
+        properties: {
+          query: {
+            type: "string",
+            description: "The search query or topic to research",
+          },
+        },
+        required: ["query"],
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "initiateSuiTransfer",
+      description: "Initiate a SUI token transfer to a specified wallet address",
+      parameters: {
+        type: "object",
+        properties: {
+          recipientAddress: {
+            type: "string",
+            description: "The recipient's SUI wallet address",
+          },
+          amount: {
+            type: "string",
+            description: "The amount of SUI to send (in SUI units)",
+          },
+        },
+        required: ["recipientAddress", "amount"],
+      },
+    },
+  },
 ];
 
 export async function POST(req) {
@@ -222,7 +260,7 @@ export async function POST(req) {
 }
 
 async function handleToolCall(toolCall) {
-  console.log("Processing complete tool call:", toolCall); // Debug log
+  console.log("Processing complete tool call:", toolCall);
 
   if (toolCall.function.name === "getCryptoPrice") {
     try {
@@ -250,6 +288,86 @@ async function handleToolCall(toolCall) {
       console.error("Error in getCryptoPrice:", error);
       return "Sorry, I encountered an error while fetching the cryptocurrency price.";
     }
+  } else if (toolCall.function.name === "searchInternet") {
+    try {
+      const args = JSON.parse(toolCall.function.arguments);
+      const tvly = tavily({ apiKey: process.env.TAVILY_API_KEY });
+      const response = await tvly.search(args.query, {
+        search_depth: "advanced",
+        max_results: 10,
+        include_answer: true,
+        include_raw_content: true,
+        include_images: false,
+        async: true,
+      });
+
+      const answer = response.answer || "I couldn't find a specific answer to your query.";
+      const sources = response.results.map((result) => `\n- ${result.title}: ${result.url}`).join("");
+
+      return `${answer}\n\nSources:${sources}`;
+    } catch (error) {
+      console.error("Error in searchInternet:", error);
+      return "Sorry, I encountered an error while searching the internet.";
+    }
+  } else if (toolCall.function.name === "initiateSuiTransfer") {
+    try {
+      const args = JSON.parse(toolCall.function.arguments);
+      const normalizedAmount = normalizeAmount(args.amount);
+
+      if (!args.recipientAddress || normalizedAmount === undefined) {
+        return "Missing required parameters for SUI transfer.";
+      }
+
+      const amountNum = parseFloat(normalizedAmount);
+      if (isNaN(amountNum) || amountNum <= 0) {
+        return "Invalid transfer amount specified.";
+      }
+
+      if (amountNum > 100) {
+        return `Transfer amount ${amountNum} SUI exceeds maximum limit of 100 SUI`;
+      }
+
+      if (amountNum < 0.000001) {
+        return "Amount is too small. Minimum amount is 0.000001 SUI";
+      }
+
+      // Format and return the TRANSFER_REQUEST as a string
+      const transferRequest = JSON.stringify({
+        type: "TRANSFER_REQUEST",
+        tool_calls: [
+          {
+            function: {
+              name: "initiateSuiTransfer",
+              arguments: JSON.stringify({
+                recipientAddress: args.recipientAddress,
+                amount: amountNum.toString(),
+              }),
+            },
+          },
+        ],
+      });
+
+      // Return both the transfer request and the user message
+      return `${transferRequest}\nTransfer request prepared:\nAmount: ${amountNum} SUI\nTo: ${args.recipientAddress}\nEstimated gas: 0.000001 SUI\nPlease confirm this transaction in your wallet.`;
+    } catch (error) {
+      console.error("Error in initiateSuiTransfer:", error);
+      return "Sorry, I encountered an error while preparing the SUI transfer.";
+    }
   }
   return "I'm not sure how to handle that request.";
+}
+
+function normalizeAmount(amount) {
+  if (typeof amount === "string" && amount.startsWith("0.")) {
+    return amount;
+  }
+
+  const amountStr = amount.toString();
+  const parsedAmount = parseFloat(amountStr);
+
+  if (parsedAmount < 1) {
+    return parsedAmount.toFixed(Math.max(2, amountStr.split(".")[1]?.length || 0));
+  }
+
+  return parsedAmount.toString();
 }
