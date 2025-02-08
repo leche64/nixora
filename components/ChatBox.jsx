@@ -194,11 +194,10 @@ export default function ChatBox({ onTypingChange }) {
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const dummyAddress = "0x914bd0c5cee2e74843dd37eb45e8afe802bfe132f5227888906c703ed8b4b632";
-      setUserAvatar(generateAvatar(dummyAddress));
+    if (typeof window !== "undefined" && wallet.account?.address) {
+      setUserAvatar(generateAvatar(wallet.account.address));
     }
-  }, []);
+  }, [wallet.account]);
 
   const handleSendMessage = async () => {
     const trimmedInput = input.trim();
@@ -402,7 +401,7 @@ export default function ChatBox({ onTypingChange }) {
                 )}
                 <div
                   className={cn(
-                    "flex max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
+                    "flex max-w-[95%] sm:max-w-[85%] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
                     message.type === "user"
                       ? "bg-[#d891a0] text-black rounded-2xl rounded-tr-none ml-auto"
                       : "bg-[#26b6aa] text-black rounded-2xl rounded-tl-none",
@@ -502,8 +501,11 @@ export default function ChatBox({ onTypingChange }) {
                 <AvatarImage src="/nixora-logo.svg" alt="Nixora" className="p-0.5" />
                 <AvatarFallback>NX</AvatarFallback>
               </Avatar>
-              <div className="max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 shadow-sm bg-[#26b6aa] rounded-2xl rounded-tl-none">
-                <l-quantum size="17" speed="2.00" color="black"></l-quantum>
+              <div className="flex flex-col gap-1">
+                <h2 className="text-xs font-semibold text-primary">Nixora</h2>
+                <div className="max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 shadow-sm bg-[#26b6aa] rounded-2xl rounded-tl-none">
+                  <l-quantum size="17" speed="2.00" color="black"></l-quantum>
+                </div>
               </div>
             </div>
           </div>
