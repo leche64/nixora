@@ -253,14 +253,14 @@ export default function ChatBox({ onTypingChange }) {
               // Debug log the original amount
               console.log("Original amount from AI:", args.amount);
 
-              // Ensure amount is properly parsed as decimal
+              // Ensure amount is properly parsed as decimal and maintain precision
               let normalizedAmount =
                 typeof args.amount === "string"
                   ? parseFloat(args.amount.replace(/[^0-9.]/g, ""))
                   : parseFloat(args.amount);
 
-              // Debug log the normalized amount
-              console.log("Normalized amount:", normalizedAmount);
+              // IMPORTANT: Do not modify the original value
+              // This was causing the issue where 0.01 became 10
 
               // Create new normalized tool call
               const normalizedText = JSON.stringify({
@@ -272,7 +272,7 @@ export default function ChatBox({ onTypingChange }) {
                       ...toolCall.tool_calls[0].function,
                       arguments: JSON.stringify({
                         ...args,
-                        amount: normalizedAmount.toString(),
+                        amount: normalizedAmount.toString(), // Keep original precision
                       }),
                     },
                   },

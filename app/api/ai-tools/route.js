@@ -225,17 +225,47 @@ async function getWalletBalance(walletAddress) {
   }
 }
 
+function normalizeAmount(amount) {
+  // If amount is a string that contains "0." at the start, preserve it exactly
+  if (typeof amount === "string" && amount.startsWith("0.")) {
+    return amount;
+  }
+
+  // Convert to string if it's a number
+  const amountStr = amount.toString();
+
+  // Parse float and ensure it maintains decimal precision
+  const parsedAmount = parseFloat(amountStr);
+
+  // If the original input was less than 1, ensure we keep the leading zeros
+  if (parsedAmount < 1) {
+    return parsedAmount.toFixed(Math.max(2, amountStr.split(".")[1]?.length || 0));
+  }
+
+  return parsedAmount.toString();
+}
+
 async function initiateSuiTransfer(recipientAddress, amount) {
   try {
-    // Validate inputs
-    if (!recipientAddress || !amount) {
+    if (!recipientAddress || amount === undefined) {
       throw new Error("Missing required parameters");
     }
 
-    // Convert amount to number and validate
+    // Parse amount carefully
     const amountNum = parseFloat(amount);
     if (isNaN(amountNum) || amountNum <= 0) {
       throw new Error("Invalid amount specified");
+    }
+
+    // Add validation for reasonable amounts
+    if (amountNum > 100) {
+      // Adjust this limit as needed
+      throw new Error(`Transfer amount ${amountNum} SUI exceeds maximum limit of 100 SUI`);
+    }
+
+    // Add validation for minimum amount
+    if (amountNum < 0.000001) {
+      throw new Error("Amount is too small. Minimum amount is 0.000001 SUI");
     }
 
     return {
@@ -245,11 +275,11 @@ async function initiateSuiTransfer(recipientAddress, amount) {
         recipientAddress,
         amount: amountNum,
         token: "SUI",
-        estimatedGas: "0.000001", // Example gas estimate
-        networkFee: "0.00021", // Example network fee
+        estimatedGas: "0.000001",
+        networkFee: "0.00021",
       },
       transaction: {
-        from: "user_wallet", // This would be replaced with actual sender
+        from: "user_wallet",
         to: recipientAddress,
         value: amountNum,
       },
@@ -347,7 +377,31 @@ export async function POST(req) {
               const args = JSON.parse(toolCall.function.arguments);
 
               if (toolCall.function.name === "initiateSuiTransfer") {
-                toolResult = await initiateSuiTransfer(args.recipientAddress, args.amount);
+                // Log original values
+                console.log("Original amount from AI:", args.amount);
+
+                // Normalize the amount while preserving decimal precision
+                const normalizedAmount = normalizeAmount(args.amount);
+                console.log("Normalized amount:", normalizedAmount);
+
+                // Create a new tool call with the normalized amount
+                const normalizedToolCall = {
+                  ...toolCall,
+                  function: {
+                    ...toolCall.function,
+                    arguments: JSON.stringify({
+                      ...args,
+                      amount: normalizedAmount,
+                    }),
+                  },
+                };
+
+                // Use the normalized tool call
+                toolResult = await initiateSuiTransfer(args.recipientAddress, normalizedAmount);
+
+                // Log the final tool call for debugging
+                console.log("Final tool call:", JSON.stringify(normalizedToolCall, null, 2));
+
                 controller.enqueue(
                   encoder.encode(
                     JSON.stringify({
