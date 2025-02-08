@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 const { tavily } = require("@tavily/core");
-import { nixoraSystemContent, nixoraToolsContent } from "@/lib/ai-agent/ai-nixora-system";
+import { nixoraSystemContent } from "@/lib/ai-agent/ai-nixora-system";
 import { SuiClient } from "@mysten/sui.js/client";
 import { getSuiNetworkConfig } from "@/lib/utils";
 
