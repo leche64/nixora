@@ -358,7 +358,7 @@ async function handleToolCall(toolCall) {
       formattedResponse += "Sources:\n";
       cleanedResults.slice(0, 3).forEach((result, index) => {
         const date = result.published_date ? ` (${result.published_date})` : "";
-        formattedResponse += `${index + 1}. ${result.title}${date}`;
+        formattedResponse += `${index + 1}. ${result.title}${date}\n`;
         formattedResponse += `   Relevance: ${result.score.toFixed(2)}\n`;
         formattedResponse += `   ${result.url}\n\n`;
       });
