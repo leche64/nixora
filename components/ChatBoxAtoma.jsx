@@ -243,9 +243,9 @@ export default function ChatBoxAtoma({ onTypingChange }) {
         const text = decoder.decode(value);
         console.log("Chunk:", text);
         try {
-          // Check if the text contains "TRANSFER_REQUEST" in a more robust way
+          // Check if the text contains "TRANSFER_REQUEST"
           if (text.includes("TRANSFER_REQUEST")) {
-            console.log("Transfer text received:", text); // Debug log
+            console.log("Transfer text received:", text);
 
             // Find the JSON object in the text
             const jsonStart = text.indexOf("{");
@@ -254,13 +254,18 @@ export default function ChatBoxAtoma({ onTypingChange }) {
 
             // Parse and handle the transfer request
             const transferRequest = JSON.parse(jsonStr);
-            console.log("Parsed transfer request:", transferRequest); // Debug log
+            console.log("Parsed transfer request:", transferRequest);
 
             // Trigger the wallet interaction
             const result = await handleTransfer(transferRequest);
-            console.log("Transfer result:", result); // Debug log
+            console.log("Transfer result:", result);
 
-            // Skip adding the transfer request to chat
+            // Add the transfer message to chat (everything after the JSON)
+            const messageText = text.slice(jsonEnd).trim();
+            if (messageText) {
+              accumulatedContent += messageText;
+              setStreamingContent(accumulatedContent);
+            }
             continue;
           }
 
