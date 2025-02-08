@@ -321,11 +321,10 @@ async function handleToolCall(toolCall) {
 
       // Add the AI-generated answer if available
       if (response.answer) {
-        formattedResponse += `${response.answer}\n\n`;
+        formattedResponse += `${response.answer.trim()}\n\n`;
       }
 
-      // Generate AI summaries for top 3 results
-      formattedResponse += "Article Summaries:\n\n";
+      formattedResponse += "Article Summaries:\n";
 
       for (const [index, result] of cleanedResults.slice(0, 3).entries()) {
         // Generate summary using Atoma API
@@ -356,15 +355,15 @@ async function handleToolCall(toolCall) {
         const summaryData = await summaryResponse.json();
         const summary = summaryData.choices[0]?.message?.content || "Summary unavailable.";
 
-        formattedResponse += `${index + 1}. ${result.title}\n`;
-        formattedResponse += `Summary: ${summary}\n\n`;
+        formattedResponse += `\n${index + 1}. ${result.title}\n`;
+        formattedResponse += `   Summary: ${summary.trim()}\n`;
       }
 
       // Add sources with relevance scores
       formattedResponse += "\nSources:\n";
       cleanedResults.forEach((result, index) => {
         const date = result.published_date ? ` (${result.published_date})` : "";
-        formattedResponse += `\n${index + 1}. ${result.title}${date}`;
+        formattedResponse += `${index + 1}. ${result.title}${date}\n`;
         formattedResponse += `   Relevance: ${result.score.toFixed(2)}\n`;
         formattedResponse += `   ${result.url}\n`;
       });
