@@ -366,13 +366,13 @@ export default function ChatBox({ onTypingChange }) {
           >
             <div className="flex items-start gap-2">
               {message.type === "ai" ? (
-                <Avatar className="h-8 w-8 border-2 border-primary/20">
+                <Avatar className="size-12 border-none">
                   <AvatarImage src="/nixora-logo.svg" alt="Nixora" className="p-0.5" />
                   <AvatarFallback>NX</AvatarFallback>
                 </Avatar>
               ) : (
                 <div className="order-2 ml-2">
-                  <Avatar className="h-8 w-8 border-2 border-primary/20">
+                  <Avatar className="size-10 border-none">
                     <AvatarImage src={userAvatar} alt="User" />
                     <AvatarFallback>U</AvatarFallback>
                   </Avatar>
@@ -443,7 +443,7 @@ export default function ChatBox({ onTypingChange }) {
         {streamingContent && (
           <div className="flex justify-start">
             <div className="flex items-start gap-2">
-              <Avatar className="h-8 w-8 border-2 border-primary/20">
+              <Avatar className="size-12 border-none">
                 <AvatarImage src="/nixora-logo.svg" alt="Nixora" className="p-0.5" />
                 <AvatarFallback>NX</AvatarFallback>
               </Avatar>
@@ -491,7 +491,7 @@ export default function ChatBox({ onTypingChange }) {
         {isPending && !streamingContent && (
           <div className="flex justify-start">
             <div className="flex items-start gap-2">
-              <Avatar className="h-8 w-8 border-2 border-primary/20">
+              <Avatar className="h-10 w-10 border-none">
                 <AvatarImage src="/nixora-logo.svg" alt="Nixora" className="p-0.5" />
                 <AvatarFallback>NX</AvatarFallback>
               </Avatar>
