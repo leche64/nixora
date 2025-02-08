@@ -295,16 +295,49 @@ async function handleToolCall(toolCall) {
       const response = await tvly.search(args.query, {
         search_depth: "advanced",
         max_results: 10,
+        include_domains: [],
+        exclude_domains: [],
         include_answer: true,
         include_raw_content: true,
         include_images: false,
         async: true,
       });
 
-      const answer = response.answer || "I couldn't find a specific answer to your query.";
-      const sources = response.results.map((result) => `\n- ${result.title}: ${result.url}`).join("");
+      // Structure and clean the content
+      const cleanedResults = response.results
+        .map((result) => ({
+          content: result.content.trim(),
+          snippet: result.snippet,
+          score: result.score,
+          title: result.title,
+          url: result.url,
+          published_date: result.published_date,
+        }))
+        .filter((result) => result.content && result.score > 0.5); // Filter low-quality results
 
-      return `${answer}\n\nSources:${sources}`;
+      // Sort by relevance score
+      cleanedResults.sort((a, b) => b.score - a.score);
+      console.log("Cleaned results:", cleanedResults);
+      let formattedResponse = "Here's what I found:";
+
+      // Add the AI-generated answer if available
+      if (response.answer) {
+        formattedResponse += `${response.answer}\n`;
+      }
+
+      // Add summaries from top results
+      cleanedResults.slice(0, 3).forEach((result, index) => {
+        formattedResponse += `\n${index + 1}. From ${result.title}:\n${result.content.slice(0, 300)}...\n`;
+      });
+
+      // Add sources with relevance scores
+      formattedResponse += "\nSources (sorted by relevance):\n";
+      cleanedResults.forEach((result) => {
+        const date = result.published_date ? ` (Published: ${result.published_date})` : "";
+        formattedResponse += `- ${result.title}${date}\n  Score: ${result.score.toFixed(2)}\n  URL: ${result.url}\n`;
+      });
+
+      return formattedResponse;
     } catch (error) {
       console.error("Error in searchInternet:", error);
       return "Sorry, I encountered an error while searching the internet.";
