@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tooltip } from "react-tooltip";
 import { Globe, HandCoins, Brain, Drop } from "@phosphor-icons/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useWallet, addressEllipsis } from "@suiet/wallet-kit";
 
 export default function ChatBox({ onTypingChange }) {
   const inputRef = useRef(null);
@@ -30,6 +31,7 @@ export default function ChatBox({ onTypingChange }) {
   const initialMessageSent = useRef(false);
   const { handleTransfer } = useSuiTransfer();
   const [userAvatar, setUserAvatar] = useState("");
+  const wallet = useWallet();
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -394,7 +396,9 @@ export default function ChatBox({ onTypingChange }) {
                     )}
                   </div>
                 ) : (
-                  <h2 className="text-xs font-semibold text-primary text-right">0x914b...b632</h2>
+                  <h2 className="text-xs font-semibold text-primary text-right">
+                    {wallet.account?.address ? addressEllipsis(wallet.account.address) : "0x914b...69420"}
+                  </h2>
                 )}
                 <div
                   className={cn(
