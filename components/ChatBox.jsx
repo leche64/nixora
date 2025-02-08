@@ -404,7 +404,7 @@ export default function ChatBox({ onTypingChange }) {
                   className={cn(
                     "flex max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
                     message.type === "user"
-                      ? "bg-[#d891a0] text-black rounded-2xl rounded-tr-none"
+                      ? "bg-[#d891a0] text-black rounded-2xl rounded-tr-none ml-auto"
                       : "bg-[#26b6aa] text-black rounded-2xl rounded-tl-none",
                     "shadow-sm",
                     "break-words whitespace-pre-wrap overflow-hidden"
