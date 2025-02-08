@@ -347,8 +347,15 @@ async function handleToolCall(toolCall) {
         ],
       });
 
-      // Return both the transfer request and the user message
-      return `${transferRequest}\nTransfer request prepared:\nAmount: ${amountNum} SUI\nTo: ${args.recipientAddress}\nEstimated gas: 0.000001 SUI\nPlease confirm this transaction in your wallet.`;
+      // Add SuiScan link to the message
+      const suiscanLink = `https://suiscan.xyz/testnet/account/${args.recipientAddress}/activity`;
+
+      return `${transferRequest}\nTransfer request prepared:
+Amount: ${amountNum} SUI
+To: ${args.recipientAddress}
+Estimated gas: 0.000001 SUI
+Please confirm this transaction in your wallet.
+\nYou can view the recipient's activity here: ${suiscanLink}`;
     } catch (error) {
       console.error("Error in initiateSuiTransfer:", error);
       return "Sorry, I encountered an error while preparing the SUI transfer.";

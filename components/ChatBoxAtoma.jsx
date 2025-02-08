@@ -411,6 +411,15 @@ export default function ChatBoxAtoma({ onTypingChange }) {
                         p: ({ node, ...props }) => <p className="mb-4 last:mb-0 [overflow-wrap:anywhere]" {...props} />,
                         ul: ({ node, ...props }) => <ul className="mb-4 pl-6 list-disc last:mb-0" {...props} />,
                         ol: ({ node, ...props }) => <ol className="mb-4 pl-8 list-decimal last:mb-0" {...props} />,
+                        a: ({ node, ...props }) => (
+                          <a
+                            {...props}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-0.5 font-medium text-primary underline decoration-primary/30 
+                              decoration-2 underline-offset-2 transition-colors hover:text-primary/80 hover:decoration-primary/60"
+                          />
+                        ),
                       }}
                     >
                       {message.content}
@@ -462,6 +471,15 @@ export default function ChatBoxAtoma({ onTypingChange }) {
                         p: ({ node, ...props }) => <p className="mb-4 last:mb-0" {...props} />,
                         ul: ({ node, ...props }) => <ul className="mb-4 pl-6 list-disc last:mb-0" {...props} />,
                         ol: ({ node, ...props }) => <ol className="mb-4 pl-8 list-decimal last:mb-0" {...props} />,
+                        a: ({ node, ...props }) => (
+                          <a
+                            {...props}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-0.5 font-medium text-primary underline decoration-primary/30 
+                              decoration-2 underline-offset-2 transition-colors hover:text-primary/80 hover:decoration-primary/60"
+                          />
+                        ),
                       }}
                     >
                       {streamingContent}
