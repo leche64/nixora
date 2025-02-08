@@ -294,7 +294,7 @@ async function handleToolCall(toolCall) {
       const tvly = tavily({ apiKey: process.env.TAVILY_API_KEY });
       const response = await tvly.search(args.query, {
         search_depth: "advanced",
-        max_results: 10,
+        max_tokens: 10,
         include_domains: [],
         exclude_domains: [],
         include_answer: true,
@@ -316,7 +316,6 @@ async function handleToolCall(toolCall) {
         .filter((result) => result.content && result.score > 0.5);
 
       cleanedResults.sort((a, b) => b.score - a.score);
-      console.log("Cleaned results:", cleanedResults);
 
       let formattedResponse = "Here's what I found:\n\n";
 
@@ -325,12 +324,41 @@ async function handleToolCall(toolCall) {
         formattedResponse += `${response.answer}\n\n`;
       }
 
-      // Add summaries from top results
-      formattedResponse += "Top Results:";
-      cleanedResults.slice(0, 3).forEach((result, index) => {
+      // Generate AI summaries for top 3 results
+      formattedResponse += "Article Summaries:\n\n";
+
+      for (const [index, result] of cleanedResults.slice(0, 3).entries()) {
+        // Generate summary using Atoma API
+        const summaryResponse = await fetch(`${BASE_URL}/chat/completions`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: MODEL_LLAMA,
+            messages: [
+              {
+                role: "system",
+                content:
+                  "You are a helpful assistant that creates concise, informative summaries. Focus on key points and maintain factual accuracy.",
+              },
+              {
+                role: "user",
+                content: `Please provide a 2-3 sentence summary of this article: ${result.content}`,
+              },
+            ],
+            temperature: 0.3,
+            max_tokens: 150,
+          }),
+        });
+
+        const summaryData = await summaryResponse.json();
+        const summary = summaryData.choices[0]?.message?.content || "Summary unavailable.";
+
         formattedResponse += `${index + 1}. ${result.title}\n`;
-        formattedResponse += `${result.content.slice(0, 300)}...\n`;
-      });
+        formattedResponse += `Summary: ${summary}\n\n`;
+      }
 
       // Add sources with relevance scores
       formattedResponse += "\nSources:\n";
