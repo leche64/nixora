@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { PaperPlaneRight, Circle, ArrowClockwise } from "@phosphor-icons/react";
+import { PaperPlaneRight, Circle, Trash } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import remarkGfm from "remark-gfm";
 import { quantum } from "ldrs";
@@ -12,7 +12,7 @@ import { useSuiTransfer } from "@/components/SuiTransactionHandler";
 import TextareaAutosize from "react-textarea-autosize";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip } from "react-tooltip";
-import { Globe, HandCoins, Rocket, Brain, Drop } from "@phosphor-icons/react";
+import { Globe, HandCoins, Brain, Drop } from "@phosphor-icons/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function ChatBox({ onTypingChange }) {
@@ -363,7 +363,22 @@ export default function ChatBox({ onTypingChange }) {
                 </Avatar>
               )}
               <div className="flex flex-col gap-1">
-                {message.type === "ai" && <h2 className="text-xs font-semibold text-primary">Nixora</h2>}
+                {message.type === "ai" && (
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-xs font-semibold text-primary">Nixora</h2>
+                    {message.stats && (
+                      <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground/90 space-x-1 sm:space-x-2 font-semibold">
+                        <span className="px-0.5 py-0.5 rounded-md bg-muted/30">{message.stats.tokens} tokens</span>
+                        <span className="text-muted-foreground/40">•</span>
+                        <span className="px-0.5 py-0.5 rounded-md bg-muted/30">{message.stats.duration}s</span>
+                        <span className="text-muted-foreground/40">•</span>
+                        <span className="px-0.5 py-0.5 rounded-md bg-muted/30">
+                          {message.stats.tokensPerSecond} tokens/s
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
                 <div
                   className={cn(
                     "flex max-w-[90%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base",
@@ -406,15 +421,6 @@ export default function ChatBox({ onTypingChange }) {
                 </div>
               </div>
             </div>
-            {message.type === "ai" && message.stats && (
-              <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground/90 mt-2 space-x-1 sm:space-x-2 font-semibold">
-                <span className="px-0.5 py-0.5 rounded-md bg-muted/30">{message.stats.tokens} tokens</span>
-                <span className="text-muted-foreground/40">•</span>
-                <span className="px-0.5 py-0.5 rounded-md bg-muted/30">{message.stats.duration}s</span>
-                <span className="text-muted-foreground/40">•</span>
-                <span className="px-0.5 py-0.5 rounded-md bg-muted/30">{message.stats.tokensPerSecond} tokens/s</span>
-              </div>
-            )}
           </div>
         ))}
         {streamingContent && (
@@ -510,7 +516,7 @@ export default function ChatBox({ onTypingChange }) {
           className="border-2 border-primary/20 bg-background hover:bg-muted/50"
           disabled={messages.length === 0 && !input.trim()}
         >
-          <ArrowClockwise className="w-5 h-5 text-primary" />
+          <Trash className="w-5 h-5 text-primary" />
         </Button>
         <Button
           onClick={handleSendMessage}
