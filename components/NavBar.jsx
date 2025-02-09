@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Wallet } from "@phosphor-icons/react";
-import { ConnectButton } from "@suiet/wallet-kit";
+import { ConnectButton, useWallet } from "@suiet/wallet-kit";
 import localFont from "next/font/local";
 const PermanentMarker = localFont({
   src: "../app/fonts/PermanentMarker-Regular.ttf",
@@ -15,6 +15,7 @@ const PermanentMarker = localFont({
 });
 
 export function NavBar() {
+  const wallet = useWallet();
   return (
     <>
       <nav className="fixed top-0 z-50 w-full h-fit">
@@ -29,15 +30,17 @@ export function NavBar() {
             </Link>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="relative inline-block">
-              <ConnectButton
-                className="!bg-transparent !px-2 sm:!px-3 !py-2 !rounded-lg 
-                          !text-gray-700 hover:!bg-gray-50 !transition-all !duration-200 
-                          !font-medium !flex !items-center !gap-2 !w-auto !min-w-fit"
-              >
-                <Wallet className="size-8 md:size-10" weight="bold" />
-              </ConnectButton>
-            </div>
+            {wallet.connected && (
+              <div className="relative inline-block">
+                <ConnectButton
+                  className="!bg-transparent !px-2 sm:!px-3 !py-2 !rounded-lg 
+                            !text-gray-700 hover:!bg-gray-50 !transition-all !duration-200 
+                            !font-medium !flex !items-center !gap-2 !w-auto !min-w-fit"
+                >
+                  <Wallet className="size-8 md:size-10" weight="bold" />
+                </ConnectButton>
+              </div>
+            )}
           </div>
         </div>
       </nav>

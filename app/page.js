@@ -9,6 +9,8 @@ import { useState, useEffect } from "react";
 import ChatBoxAtoma from "@/components/ChatBoxAtoma";
 import { useWallet } from "@suiet/wallet-kit";
 import NixoraToolsLogo from "@/components/NixoraToolsLogo";
+import { ConnectButton } from "@suiet/wallet-kit";
+import { Wallet } from "@phosphor-icons/react";
 
 export default function Home() {
   const [isTyping, setIsTyping] = useState(false);
@@ -17,15 +19,15 @@ export default function Home() {
     "Research Crypto",
     "Send Crypto",
     "Compare Liquidity",
+    "Private, Secure and Open source",
     "Decentralized AI Compute",
-    "Private and Secure data on Trusted Execution Environments (TEEs)",
   ];
   const [currentTagline, setCurrentTagline] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTagline((prev) => (prev + 1) % taglines.length);
-    }, 3000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
@@ -103,6 +105,16 @@ export default function Home() {
                     {taglines[currentTagline]}
                   </motion.div>
                 </AnimatePresence>
+                <div className="mt-6 flex justify-center">
+                  <ConnectButton
+                    className="!bg-transparent !px-2 sm:!px-3 !py-2 !rounded-lg 
+                        !text-gray-700 hover:!bg-gray-50 !transition-all !duration-200 
+                        !font-medium !flex !items-center !gap-2 !w-auto !min-w-fit"
+                  >
+                    <Wallet className="size-8 md:size-10" weight="bold" />
+                    <span className="hidden sm:inline text-base md:text-lg font-vt323">Connect Wallet</span>
+                  </ConnectButton>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
