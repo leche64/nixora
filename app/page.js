@@ -13,7 +13,7 @@ import NixoraToolsLogo from "@/components/NixoraToolsLogo";
 export default function Home() {
   const [isTyping, setIsTyping] = useState(false);
   const wallet = useWallet();
-  const taglines = ["Research Crypto", "Send Crypto", "Be Crypto"];
+  const taglines = ["Research Crypto", "Send Crypto", "Compare Liquidity"];
   const [currentTagline, setCurrentTagline] = useState(0);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="mt-3 text-lg text-muted-foreground/80 tracking-wide"
+                  className="mt-3 text-lg text-muted-foreground/80 tracking-wide max-w-md mx-auto"
                 >
                   Explore the future of DeFi and Sui with Nixora
                 </motion.p>
@@ -92,7 +92,7 @@ export default function Home() {
                         duration: 0.3,
                       },
                     }}
-                    className="mt-6 text-xl font-light text-primary/80 tracking-tighter"
+                    className="mt-6 text-xl font-light text-primary/80 tracking-tighter max-w-sm mx-auto"
                   >
                     {taglines[currentTagline]}
                   </motion.div>
