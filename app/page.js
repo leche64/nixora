@@ -51,7 +51,9 @@ export default function Home() {
           >
             <Card className="min-w-lg mx-auto bg-transparent border-none shadow-none">
               <CardContent>
-                <NixoraToolsLogo />
+                <div className="sm:scale-100 scale-75">
+                  <NixoraToolsLogo />
+                </div>
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
