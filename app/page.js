@@ -75,9 +75,11 @@ export default function Home() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="mt-3 text-lg text-muted-foreground/80 tracking-wide max-w-sm mx-auto"
+                  className="mt-3 text-lg text-muted-foreground/80 tracking-wide max-w-sm mx-auto flex flex-col items-center"
                 >
-                  Explore the future of AI x DeFi x Sui with Nixora
+                  <span>Explore the future of</span>
+                  <span className="font-medium">AI x DeFi x Sui</span>
+                  <span>with Nixora</span>
                 </motion.p>
 
                 <AnimatePresence mode="wait">
