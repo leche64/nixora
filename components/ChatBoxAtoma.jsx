@@ -108,6 +108,7 @@ export default function ChatBoxAtoma({ onTypingChange }) {
           body: JSON.stringify({
             message: "hello, what are you",
             walletAddress: wallet.account?.address || null,
+            model: selectedModel,
           }),
         });
 
@@ -197,7 +198,7 @@ export default function ChatBoxAtoma({ onTypingChange }) {
         window.removeEventListener("load", sendInitialMessage);
       }
     };
-  }, [wallet.account?.address]);
+  }, [wallet.account?.address, selectedModel]);
 
   useEffect(() => {
     quantum.register();
@@ -233,6 +234,7 @@ export default function ChatBoxAtoma({ onTypingChange }) {
         body: JSON.stringify({
           message: trimmedInput,
           walletAddress: wallet.account?.address || null,
+          model: selectedModel,
         }),
       });
 

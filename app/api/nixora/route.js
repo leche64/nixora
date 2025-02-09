@@ -88,9 +88,10 @@ const tools = [
 
 export async function POST(req) {
   try {
-    const { message } = await req.json();
+    const body = await req.json();
+    const { message, model } = body;
     console.log("Incoming message:", message);
-
+    console.log("Request body:", JSON.stringify(body, null, 2));
     const needsTools =
       message.toLowerCase().includes("price") ||
       message.toLowerCase().includes("how much") ||
@@ -122,7 +123,7 @@ export async function POST(req) {
           Authorization: `Bearer ${API_KEY}`,
         },
         body: JSON.stringify({
-          model: MODEL_LLAMA,
+          model: model === "DeepSeek-R1" ? MODEL_DEEPSEEK : MODEL_LLAMA,
           messages: [
             {
               role: "system",
@@ -257,7 +258,7 @@ export async function POST(req) {
           Authorization: `Bearer ${API_KEY}`,
         },
         body: JSON.stringify({
-          model: MODEL_LLAMA,
+          model: model === "DeepSeek-R1" ? MODEL_DEEPSEEK : MODEL_LLAMA,
           messages: [
             {
               role: "system",
