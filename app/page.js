@@ -13,7 +13,13 @@ import NixoraToolsLogo from "@/components/NixoraToolsLogo";
 export default function Home() {
   const [isTyping, setIsTyping] = useState(false);
   const wallet = useWallet();
-  const taglines = ["Research Crypto", "Send Crypto", "Compare Liquidity"];
+  const taglines = [
+    "Research Crypto",
+    "Send Crypto",
+    "Compare Liquidity",
+    "Decentralized AI Compute",
+    "Private and Secure data on Trusted Execution Environments (TEEs)",
+  ];
   const [currentTagline, setCurrentTagline] = useState(0);
 
   useEffect(() => {
