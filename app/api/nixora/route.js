@@ -123,7 +123,7 @@ export async function POST(req) {
           Authorization: `Bearer ${API_KEY}`,
         },
         body: JSON.stringify({
-          model: model === "DeepSeek-R1" ? MODEL_DEEPSEEK : MODEL_LLAMA,
+          model: MODEL_LLAMA,
           messages: [
             {
               role: "system",
