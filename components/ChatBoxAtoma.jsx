@@ -98,7 +98,10 @@ export default function ChatBoxAtoma({ onTypingChange }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ message: "hello, what are you" }),
+          body: JSON.stringify({
+            message: "hello, what are you",
+            walletAddress: wallet.account?.address || null,
+          }),
         });
 
         if (!response.ok) {
@@ -187,7 +190,7 @@ export default function ChatBoxAtoma({ onTypingChange }) {
         window.removeEventListener("load", sendInitialMessage);
       }
     };
-  }, []);
+  }, [wallet.account?.address]);
 
   useEffect(() => {
     quantum.register();
@@ -208,7 +211,7 @@ export default function ChatBoxAtoma({ onTypingChange }) {
     setInput("");
     setStreamingContent("");
     setStreamStartTime(Date.now());
-    setIsAITyping(true); // Set when starting
+    setIsAITyping(true);
     let tokenCount = 0;
 
     setMessages((prev) => [...prev, { content: trimmedInput, type: "user" }]);
@@ -220,7 +223,10 @@ export default function ChatBoxAtoma({ onTypingChange }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: trimmedInput }),
+        body: JSON.stringify({
+          message: trimmedInput,
+          walletAddress: wallet.account?.address || null,
+        }),
       });
 
       if (!response.ok) {
@@ -306,7 +312,7 @@ export default function ChatBoxAtoma({ onTypingChange }) {
       console.error("Error:", error);
       setIsError(true);
       setMessages((prev) => [...prev, { content: "Sorry, something went wrong. Please try again.", type: "ai" }]);
-      setIsAITyping(false); // Set to false on error
+      setIsAITyping(false);
     } finally {
       setIsPending(false);
       setStreamingContent("");
