@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { PaperPlaneRight, Circle, Trash } from "@phosphor-icons/react";
+import { PaperPlaneRight, Circle, Trash, CaretDown } from "@phosphor-icons/react";
 import { cn, generateAvatar } from "@/lib/utils";
 import remarkGfm from "remark-gfm";
 import { quantum } from "ldrs";
@@ -15,6 +15,12 @@ import { Tooltip } from "react-tooltip";
 import { Globe, HandCoins, Brain, Drop } from "@phosphor-icons/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useWallet, addressEllipsis } from "@suiet/wallet-kit";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function ChatBoxAtoma({ onTypingChange }) {
   const inputRef = useRef(null);
@@ -32,6 +38,7 @@ export default function ChatBoxAtoma({ onTypingChange }) {
   const { handleTransfer } = useSuiTransfer();
   const [userAvatar, setUserAvatar] = useState("");
   const wallet = useWallet();
+  const [selectedModel, setSelectedModel] = useState("Llama-3.3-70B-Instruct");
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -628,6 +635,28 @@ export default function ChatBoxAtoma({ onTypingChange }) {
             </div>
           }
         />
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className="inline-flex items-center gap-1.5 rounded-md px-2 h-8 hover:bg-muted/50 hover:text-foreground text-xs"
+              aria-label="Select Model"
+            >
+              <span className="text-muted-foreground">{selectedModel}</span>
+              <CaretDown className="h-4 w-4" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-[150px]">
+            <DropdownMenuItem
+              onClick={() => setSelectedModel("Llama-3.3-70B-Instruct")}
+              className="flex items-center justify-between"
+            >
+              Llama-3.3-70B-Instruct
+              <span className="text-xs text-muted-foreground">(Default)</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setSelectedModel("DeepSeek-R1")}>DeepSeek-R1</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );
