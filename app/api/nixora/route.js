@@ -108,6 +108,13 @@ export async function POST(req) {
       message.toLowerCase().includes("apy");
 
     if (needsTools) {
+      // Add response headers for streaming
+      const headers = {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache, no-transform",
+        Connection: "keep-alive",
+      };
+
       const initialResponse = await fetch(`${BASE_URL}/chat/completions`, {
         method: "POST",
         headers: {
@@ -139,6 +146,16 @@ export async function POST(req) {
               throw new Error(`Atoma API error: ${initialResponse.statusText}`);
             }
 
+            // Add keepalive ping every 15 seconds
+            const keepAliveInterval = setInterval(() => {
+              try {
+                controller.enqueue(encoder.encode(": keepalive\n\n"));
+              } catch (e) {
+                console.error("Keepalive failed:", e);
+                clearInterval(keepAliveInterval);
+              }
+            }, 15000);
+
             const reader = initialResponse.body.getReader();
             let buffer = "";
             let toolCallBuffer = {
@@ -151,7 +168,10 @@ export async function POST(req) {
 
             while (true) {
               const { done, value } = await reader.read();
-              if (done) break;
+              if (done) {
+                clearInterval(keepAliveInterval);
+                break;
+              }
 
               buffer += new TextDecoder().decode(value);
               const lines = buffer.split("\n");
@@ -212,18 +232,24 @@ export async function POST(req) {
                 }
               }
             }
-
-            controller.close();
-          } catch (error) {
-            console.error("Streaming error:", error);
-            controller.error(error);
+          } finally {
+            clearInterval(keepAliveInterval);
+            reader.releaseLock();
           }
+
+          controller.close();
         },
       });
 
-      return new Response(stream);
+      return new Response(stream, { headers });
     } else {
       // For general questions without tools
+      const headers = {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache, no-transform",
+        Connection: "keep-alive",
+      };
+
       const response = await fetch(`${BASE_URL}/chat/completions`, {
         method: "POST",
         headers: {
@@ -292,7 +318,7 @@ export async function POST(req) {
         },
       });
 
-      return new Response(response.body.pipeThrough(transformStream));
+      return new Response(response.body.pipeThrough(transformStream), { headers });
     }
   } catch (error) {
     console.error("Nixora API Error:", error);
