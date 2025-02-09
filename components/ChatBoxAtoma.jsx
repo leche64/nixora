@@ -350,7 +350,7 @@ export default function ChatBoxAtoma({ onTypingChange }) {
                 </Avatar>
               ) : (
                 <div className="order-2 ml-2">
-                  <Avatar className="size-10 border-none">
+                  <Avatar className="size-8 border-none">
                     <AvatarImage src={userAvatar} alt="User" />
                     <AvatarFallback>U</AvatarFallback>
                   </Avatar>
