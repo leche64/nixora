@@ -335,7 +335,7 @@ export default function ChatBoxAtoma({ onTypingChange }) {
   };
 
   return (
-    <div className="flex flex-col pt-10 h-[80dvh] w-[90%] mx-auto">
+    <div className="flex flex-col h-[80dvh] w-[90%] mx-auto">
       <div
         className="relative flex-1 p-2 sm:p-4 space-y-4 sm:space-y-6 
           overflow-y-auto
