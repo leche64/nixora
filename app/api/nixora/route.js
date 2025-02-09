@@ -184,7 +184,13 @@ export async function POST(req) {
               for (const line of lines) {
                 if (line.startsWith("data: ")) {
                   try {
-                    const jsonData = JSON.parse(line.slice(6));
+                    const jsonLine = line.slice(6).trim();
+                    // Skip empty lines or [DONE] messages
+                    if (!jsonLine || jsonLine === "[DONE]") {
+                      continue;
+                    }
+
+                    const jsonData = JSON.parse(jsonLine);
                     const delta = jsonData.choices[0]?.delta;
 
                     // Handle regular content
@@ -230,7 +236,10 @@ export async function POST(req) {
                       }
                     }
                   } catch (e) {
-                    console.error("Error parsing SSE message:", e);
+                    // Log the error but don't throw, allow processing to continue
+                    if (!line.includes("[DONE]")) {
+                      console.error("Error parsing SSE message:", e, "Line:", line);
+                    }
                     continue;
                   }
                 }
