@@ -560,9 +560,9 @@ export default function ChatBoxAtoma({ onTypingChange }) {
         </Button>
       </div>
 
-      <div className="flex gap-2 px-2 sm:px-4 py-2">
-        <Badge variant="outline" className="gap-1 cursor-help" data-tooltip-id="search-tooltip">
-          <Globe className="w-4 h-4" />
+      <div className="flex flex-wrap gap-1.5 sm:gap-2 px-2 sm:px-4 py-2 text-xs sm:text-sm">
+        <Badge variant="outline" className="gap-1 cursor-help text-xs sm:text-sm" data-tooltip-id="search-tooltip">
+          <Globe className="w-3 h-3 sm:w-4 sm:h-4" />
           Search
         </Badge>
         <Tooltip
@@ -577,8 +577,8 @@ export default function ChatBoxAtoma({ onTypingChange }) {
           }
         />
 
-        <Badge variant="outline" className="gap-1 cursor-help" data-tooltip-id="sui-tooltip">
-          <HandCoins className="w-4 h-4" />
+        <Badge variant="outline" className="gap-1 cursor-help text-xs sm:text-sm" data-tooltip-id="sui-tooltip">
+          <HandCoins className="w-3 h-3 sm:w-4 sm:h-4" />
           Send Sui
         </Badge>
         <Tooltip
@@ -596,8 +596,8 @@ export default function ChatBoxAtoma({ onTypingChange }) {
           }
         />
 
-        <Badge variant="outline" className="gap-1 cursor-help" data-tooltip-id="liquidity-tooltip">
-          <Drop className="w-4 h-4" />
+        <Badge variant="outline" className="gap-1 cursor-help text-xs sm:text-sm" data-tooltip-id="liquidity-tooltip">
+          <Drop className="w-3 h-3 sm:w-4 sm:h-4" />
           Liquidity
         </Badge>
         <Tooltip
@@ -612,8 +612,8 @@ export default function ChatBoxAtoma({ onTypingChange }) {
           }
         />
 
-        <Badge variant="outline" className="gap-1 cursor-help" data-tooltip-id="llm-tooltip">
-          <Brain className="w-4 h-4" />
+        <Badge variant="outline" className="gap-1 cursor-help text-xs sm:text-sm" data-tooltip-id="llm-tooltip">
+          <Brain className="w-3 h-3 sm:w-4 sm:h-4" />
           LLM
         </Badge>
         <Tooltip
