@@ -51,7 +51,7 @@ export default function Home() {
           >
             <Card className="min-w-lg mx-auto bg-transparent border-none shadow-none">
               <CardContent>
-                <div className="sm:scale-100 scale-75">
+                <div className="w-full max-w-[280px] sm:max-w-[400px] mx-auto">
                   <NixoraToolsLogo />
                 </div>
                 <motion.p
