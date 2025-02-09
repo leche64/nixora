@@ -4,10 +4,13 @@ import { nixoraSystemContent } from "@/lib/ai-agent/ai-nixora-system";
 import { SuiClient } from "@mysten/sui.js/client";
 import { getSuiNetworkConfig } from "@/lib/utils";
 
-const BASE_URL = "https://api.atoma.network/v1";
-const API_KEY = "gKuPUDzvVkcRfNo5rctfB9wQ8a7Ls3";
-const MODEL_LLAMA = "meta-llama/Llama-3.3-70B-Instruct";
-const MODEL_DEEPSEEK = "deepseek-ai/DeepSeek-R1";
+const BASE_URL = process.env.ENV !== "PROD" ? "http://localhost:11434/v1" : "https://api.atoma.network/v1";
+
+const API_KEY = process.env.ENV !== "PROD" ? "ollama" : "gKuPUDzvVkcRfNo5rctfB9wQ8a7Ls3";
+
+const MODEL_LLAMA = process.env.ENV !== "PROD" ? "qwen2.5:3b" : "meta-llama/Llama-3.3-70B-Instruct";
+
+const MODEL_DEEPSEEK = process.env.ENV !== "PROD" ? "qwen2.5:3b" : "deepseek-ai/DeepSeek-R1";
 
 const tools = [
   {
