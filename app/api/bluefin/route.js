@@ -14,7 +14,7 @@ export async function GET() {
     const poolData = await response.json();
 
     // Get up to 5 pools from the data
-    const pools = Array.isArray(poolData) ? poolData.slice(0, 5) : [poolData];
+    const pools = Array.isArray(poolData) ? poolData.slice(0, 10) : [poolData];
 
     // Map each pool to our structured format
     const poolSummaries = pools.map((pool) => ({
