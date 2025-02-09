@@ -97,7 +97,6 @@ export async function POST(req) {
       message.toLowerCase().includes("token") ||
       message.toLowerCase().includes("search") ||
       message.toLowerCase().includes("find") ||
-      message.toLowerCase().includes("what is") ||
       message.toLowerCase().includes("sui tokens") ||
       message.toLowerCase().includes("balance for") ||
       message.toLowerCase().includes("wallet") ||
@@ -127,7 +126,7 @@ export async function POST(req) {
           tools,
           tool_choice: "auto",
           temperature: 0.5,
-          max_tokens: 128,
+          max_tokens: 700,
           stream: true,
         }),
       });
@@ -241,29 +240,53 @@ export async function POST(req) {
             { role: "user", content: message },
           ],
           temperature: 0.7,
-          max_tokens: 128,
+          max_tokens: 700,
           stream: true,
         }),
       });
 
-      // Create a transformed stream that processes the SSE format
+      let buffer = "";
       const transformStream = new TransformStream({
         async transform(chunk, controller) {
           const text = new TextDecoder().decode(chunk);
-          const lines = text.split("\n");
+          buffer += text;
+          const lines = buffer.split("\n");
+          buffer = lines.pop() || ""; // Keep the last incomplete line in the buffer
 
           for (const line of lines) {
             if (line.startsWith("data: ")) {
               try {
-                const jsonData = JSON.parse(line.slice(6));
-                const content = jsonData.choices[0]?.delta?.content || "";
+                const jsonLine = line.slice(6).trim();
+                // Skip empty lines or "[DONE]" messages
+                if (!jsonLine || jsonLine === "[DONE]") continue;
+
+                const jsonData = JSON.parse(jsonLine);
+                const content = jsonData.choices?.[0]?.delta?.content;
                 if (content) {
                   controller.enqueue(new TextEncoder().encode(content));
                 }
               } catch (e) {
-                console.error("Error parsing SSE message:", e);
+                console.error("Error parsing SSE message:", e, "Line:", line);
+                // Continue processing other lines even if one fails
                 continue;
               }
+            }
+          }
+        },
+        flush(controller) {
+          // Process any remaining data in the buffer
+          if (buffer) {
+            try {
+              const jsonLine = buffer.slice(6).trim();
+              if (jsonLine && jsonLine !== "[DONE]") {
+                const jsonData = JSON.parse(jsonLine);
+                const content = jsonData.choices?.[0]?.delta?.content;
+                if (content) {
+                  controller.enqueue(new TextEncoder().encode(content));
+                }
+              }
+            } catch (e) {
+              console.error("Error processing final buffer:", e);
             }
           }
         },
@@ -323,7 +346,7 @@ async function handleToolCall(toolCall) {
             },
           ],
           temperature: 0.7,
-          max_tokens: 200,
+          max_tokens: 400,
         }),
       });
 
