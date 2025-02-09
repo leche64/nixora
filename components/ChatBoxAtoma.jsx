@@ -129,6 +129,11 @@ export default function ChatBoxAtoma({ onTypingChange }) {
 
           const text = decoder.decode(value);
           try {
+            // Filter out keepalive messages
+            if (text.trim() === ": keepalive") {
+              continue;
+            }
+
             // Check if the response is a tool result
             if (text.includes('"type":"tool_result"')) {
               const toolResponse = JSON.parse(text);
@@ -258,6 +263,11 @@ export default function ChatBoxAtoma({ onTypingChange }) {
         const text = decoder.decode(value);
         console.log("Chunk:", text);
         try {
+          // Filter out keepalive messages
+          if (text.trim() === ": keepalive") {
+            continue;
+          }
+
           // Check if the text contains "TRANSFER_REQUEST"
           if (text.includes("TRANSFER_REQUEST")) {
             console.log("Transfer text received:", text);
@@ -291,10 +301,12 @@ export default function ChatBoxAtoma({ onTypingChange }) {
           setStreamingContent(accumulatedContent);
         } catch (e) {
           console.error("Error processing message:", e);
-          // If JSON parsing fails, treat as regular text
-          accumulatedContent += text;
-          tokenCount = Math.ceil(accumulatedContent.length / 4);
-          setStreamingContent(accumulatedContent);
+          // Filter out keepalive messages even in catch block
+          if (text.trim() !== ": keepalive") {
+            accumulatedContent += text;
+            tokenCount = Math.ceil(accumulatedContent.length / 4);
+            setStreamingContent(accumulatedContent);
+          }
         }
       }
 
