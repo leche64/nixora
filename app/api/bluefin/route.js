@@ -58,25 +58,28 @@ export async function GET() {
         })) || [],
     };
 
-    const prompt = `Analyze this DeFi liquidity pool data and provide a brief summary focusing on key metrics:
+    const prompt = `Analyze this DeFi liquidity pool data from Bluefin (https://trade.bluefin.io/liquidity-pools) and provide a brief summary focusing on key metrics:
     ${JSON.stringify(poolSummary, null, 2)}
     
     Please provide a concise analysis with these sections:
-    1. Pool Overview: Describe the ${poolSummary.symbol} pool's TVL and current trading conditions
+    1. Pool Overview: Describe the ${poolSummary.symbol} pool's TVL and current trading conditions on Bluefin
     2. APR Analysis: Break down the fee APR (${poolSummary.dayStats.apr.feeApr}%) and reward APR (${
       poolSummary.dayStats.apr.rewardApr
     }%)
     3. Risk Assessment: Evaluate price stability (range: ${poolSummary.dayStats.priceRange.min} - ${
       poolSummary.dayStats.priceRange.max
     })
-    4. Recommendation: Based on TVL, APR, and risk metrics`;
+    4. Recommendation: Based on TVL, APR, and risk metrics
+    
+    Note: Include a link to view more details at https://trade.bluefin.io/liquidity-pools`;
 
     const aiResponse = await openai.chat.completions.create({
       model,
       messages: [
         {
           role: "system",
-          content: "You are a DeFi analyst. Provide brief, data-driven analysis of liquidity pools.",
+          content:
+            "You are a DeFi analyst specializing in Bluefin liquidity pools. Provide brief, data-driven analysis and always include a reference to view more details on the Bluefin trading platform.",
         },
         {
           role: "user",
@@ -84,7 +87,7 @@ export async function GET() {
         },
       ],
       temperature: 0.5,
-      max_tokens: 1000,
+      max_tokens: 300,
     });
 
     const analysis = aiResponse.choices[0].message.content;
