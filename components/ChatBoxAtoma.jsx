@@ -38,7 +38,7 @@ export default function ChatBoxAtoma({ onTypingChange }) {
   const { handleTransfer } = useSuiTransfer();
   const [userAvatar, setUserAvatar] = useState("");
   const wallet = useWallet();
-  const [selectedModel, setSelectedModel] = useState("Llama-3.3-70B-Instruct");
+  const [selectedModel, setSelectedModel] = useState("Llama-3.3-70b");
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -648,10 +648,10 @@ export default function ChatBoxAtoma({ onTypingChange }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-[150px]">
             <DropdownMenuItem
-              onClick={() => setSelectedModel("Llama-3.3-70B-Instruct")}
+              onClick={() => setSelectedModel("Llama-3.3-70b")}
               className="flex items-center justify-between"
             >
-              Llama-3.3-70B-Instruct
+              Llama-3.3-70b
               <span className="text-xs text-muted-foreground">(Default)</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setSelectedModel("DeepSeek-R1")}>DeepSeek-R1</DropdownMenuItem>
