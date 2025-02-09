@@ -58,7 +58,7 @@ export default function Home() {
                   transition={{ delay: 0.3 }}
                   className="text-2xl text-muted-foreground tracking-widest"
                 >
-                  DeFi AI Agent on Sui blockchain
+                  DeFi AI Agent
                 </motion.p>
 
                 <motion.p
