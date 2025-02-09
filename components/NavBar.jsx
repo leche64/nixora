@@ -7,6 +7,12 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Wallet } from "@phosphor-icons/react";
 import { ConnectButton } from "@suiet/wallet-kit";
+import localFont from "next/font/local";
+const PermanentMarker = localFont({
+  src: "../app/fonts/PermanentMarker-Regular.ttf",
+  variable: "--font-permanent-marker",
+  weight: "400",
+});
 
 export function NavBar() {
   return (
@@ -19,7 +25,7 @@ export function NavBar() {
               <div className="relative size-12 md:size-18">
                 <Image src="/nixora-logo.svg" alt="Nixora" fill className="object-contain w-full h-full" priority />
               </div>
-              <h1 className="text-3xl font-black text-black md:text-4xl tracking-wide">Nixora</h1>
+              <h1 className={`text-4xl text-black md:text-5xl tracking-tighter font-bold`}>Nixora</h1>
             </Link>
           </div>
           <div className="flex items-center space-x-4">
