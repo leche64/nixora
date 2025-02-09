@@ -145,13 +145,14 @@ export async function POST(req) {
       const encoder = new TextEncoder();
       const stream = new ReadableStream({
         async start(controller) {
+          let keepAliveInterval;
           try {
             if (!initialResponse.ok) {
               throw new Error(`Atoma API error: ${initialResponse.statusText}`);
             }
 
             // Add keepalive ping every 15 seconds
-            const keepAliveInterval = setInterval(() => {
+            keepAliveInterval = setInterval(() => {
               try {
                 controller.enqueue(encoder.encode(": keepalive\n\n"));
               } catch (e) {
@@ -173,7 +174,6 @@ export async function POST(req) {
             while (true) {
               const { done, value } = await reader.read();
               if (done) {
-                clearInterval(keepAliveInterval);
                 break;
               }
 
@@ -245,12 +245,15 @@ export async function POST(req) {
                 }
               }
             }
+          } catch (error) {
+            console.error("Stream processing error:", error);
+            controller.error(error);
           } finally {
-            clearInterval(keepAliveInterval);
-            reader.releaseLock();
+            if (keepAliveInterval) {
+              clearInterval(keepAliveInterval);
+            }
+            controller.close();
           }
-
-          controller.close();
         },
       });
 
