@@ -77,7 +77,7 @@ export default function Home() {
                   transition={{ delay: 0.4 }}
                   className="mt-3 text-lg text-muted-foreground/80 tracking-wide max-w-md mx-auto"
                 >
-                  Explore the future of DeFi and Sui with Nixora
+                  Explore the future of AI x DeFi x Sui with Nixora
                 </motion.p>
 
                 <AnimatePresence mode="wait">
