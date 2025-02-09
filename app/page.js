@@ -75,7 +75,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="mt-3 text-lg text-muted-foreground/80 tracking-wide max-w-md mx-auto"
+                  className="mt-3 text-lg text-muted-foreground/80 tracking-wide max-w-sm mx-auto"
                 >
                   Explore the future of AI x DeFi x Sui with Nixora
                 </motion.p>
