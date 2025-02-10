@@ -19,7 +19,7 @@ export default function Home() {
     "Research Crypto",
     "Send Crypto",
     "Compare Liquidity",
-    "Private, Secure and Open source",
+    "Private, Secure and Open Source",
     "Decentralized AI Compute",
   ];
   const [currentTagline, setCurrentTagline] = useState(0);
@@ -68,14 +68,14 @@ export default function Home() {
                   transition={{ delay: 0.3 }}
                   className="text-2xl text-muted-foreground tracking-widest"
                 >
-                  Full Stack AI Agent Starter Kit
+                  Full-Stack AI Agent Starter Kit
                 </motion.p>
 
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="mt-3 text-sm text-muted-foreground/80 tracking-wide max-w-sm mx-auto flex flex-col items-center"
+                  className="mt-3 text-xs sm:text-sm md:text-base text-muted-foreground/80 tracking-wide max-w-sm mx-auto flex flex-col items-center"
                 >
                   <span>Explore the future of</span>
                   <span className="font-medium">AI x DeFi x Sui</span>
