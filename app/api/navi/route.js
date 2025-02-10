@@ -70,17 +70,26 @@ export async function GET() {
 
     // Create prompt for AI analysis
     const aiStartTime = performance.now();
-    const prompt = `Analyze the following DeFi pools and provide the best opportunities for:
-1. Highest yield farming (supply) opportunities
-2. Lowest borrowing rates
+    const prompt = `Analyze the following DeFi pools from Navi Protocol and Bluefin.io to provide the best opportunities for:
+1. Highest yield farming (supply) opportunities on Navi Protocol
+2. Lowest borrowing rates on Navi Protocol
 3. Best risk-adjusted returns considering LTV ratios
-4. Any notable arbitrage opportunities
+4. Trading opportunities on Bluefin's high-performance DEX, including:
+   - Perpetual futures trading (launching Q1 2025)
+   - Spot trading with cross-chain liquidity
+   - Sub-second transaction execution
 
-Pool Data:
+Pool Data from Navi Protocol:
 ${JSON.stringify(formattedPools, null, 2)}
 
-Please provide a concise analysis with specific recommendations. End your analysis with:
-"View all markets and start earning at https://app.naviprotocol.io/market"`;
+Please provide a concise analysis with specific recommendations, comparing opportunities across both platforms. Include:
+- Yield opportunities on Navi Protocol
+- Trading opportunities on Bluefin's DEX
+- Cross-platform arbitrage potential
+
+End your analysis with:
+"View all Navi markets at https://app.naviprotocol.io/market
+Explore Bluefin's DEX at https://bluefin.io"`;
 
     // Get AI analysis
     console.log("🤖 Requesting AI analysis...");
@@ -90,7 +99,7 @@ Please provide a concise analysis with specific recommendations. End your analys
         {
           role: "system",
           content:
-            "You are a DeFi expert analyzing yield opportunities. Provide clear, actionable insights based on the data provided. Always include a link to NAVI's market page in your analysis.",
+            "You are a DeFi expert analyzing yield and trading opportunities across multiple protocols. Provide clear, actionable insights based on the data provided, considering both Navi Protocol's lending markets and Bluefin's trading infrastructure.",
         },
         {
           role: "user",
