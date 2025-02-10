@@ -87,6 +87,9 @@ Please provide a concise analysis with specific recommendations, comparing oppor
 - Trading opportunities on Bluefin's DEX
 - Cross-platform arbitrage potential
 
+IMPORTANT DISCLAIMER to always include in your analysis:
+This analysis is for informational purposes only and should not be considered financial advice. Always conduct your own research and consider your risk tolerance before making any investment decisions. Cryptocurrency markets are highly volatile, and past performance does not guarantee future results.
+
 End your analysis with:
 "View all Navi markets at https://app.naviprotocol.io/market
 Explore Bluefin's DEX at https://bluefin.io"`;
