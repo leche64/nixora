@@ -68,7 +68,7 @@ export default function Home() {
                   transition={{ delay: 0.3 }}
                   className="text-xl sm:text-2xl text-muted-foreground tracking-widest mt-4 sm:mt-2"
                 >
-                  Full-Stack AI Agent Starter Kit
+                  Full-Stack DeFi Sui AI Agent Starter Kit
                 </motion.p>
 
                 <motion.p
@@ -78,7 +78,7 @@ export default function Home() {
                   className="mt-4 sm:mt-3 text-xs sm:text-sm md:text-base text-muted-foreground/80 tracking-wide max-w-sm mx-auto flex flex-col items-center gap-1 sm:gap-0"
                 >
                   <span>Explore the future of</span>
-                  <span className="font-medium">AI x DeFi x Sui</span>
+                  <span className="font-medium">DeFi x Sui x AI</span>
                   <span>with Nixora</span>
                 </motion.p>
 
