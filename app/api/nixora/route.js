@@ -6,7 +6,7 @@ import { getSuiNetworkConfig } from "@/lib/utils";
 
 const BASE_URL = process.env.ENV !== "PROD" ? "http://localhost:11434/v1" : "https://api.atoma.network/v1";
 
-const API_KEY = process.env.ENV !== "PROD" ? "ollama" : "gKuPUDzvVkcRfNo5rctfB9wQ8a7Ls3";
+const API_KEY = process.env.ENV !== "PROD" ? "ollama" : process.env.ATOMA_API_KEY;
 
 const MODEL_LLAMA = process.env.ENV !== "PROD" ? "qwen2.5:3b" : "meta-llama/Llama-3.3-70B-Instruct";
 
