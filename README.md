@@ -226,6 +226,17 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
    Create a `.env` file in the root directory and add necessary environment variables.
 
    ```env
+   # App URL
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+   # Sui Network
+   SUI_NETWORK=TESTNET
+
+   # Environment
+   # change depending on your AI compute provider
+   # DEV = OLLAMA (LOCAL) || PROD = ATOMA (CLOUD)
+   ENV=PROD
+
    # Tavily API for internet search
    # Get your API key at https://app.tavily.com/home
    TAVILY_API_KEY=<your_api_key>
