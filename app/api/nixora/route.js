@@ -280,8 +280,8 @@ export async function POST(req) {
             },
             { role: "user", content: message },
           ],
-          temperature: 0.5,
-          max_tokens: 3000,
+          temperature: 0.4,
+          max_tokens: 4000,
           stream: true,
         }),
       });
@@ -386,7 +386,7 @@ async function handleToolCall(toolCall) {
                 Market Cap: $${data.marketCap}`,
             },
           ],
-          temperature: 0.7,
+          temperature: 0.5,
           max_tokens: 700,
         }),
       });
