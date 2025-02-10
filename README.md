@@ -284,7 +284,7 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
    ```bash
    ollama run qwen2.5:1.5b
    ```
-4. Running LLM(s) locally means you talk directly to the model(s) without any third parties involved or outside network connections.
+4. Running LLM(s) locally means you talk directly to the model(s) without any third parties involved or outside network connections, unlimited.. FOR FREE.
 
 ## 🔗 Useful Links
 
