@@ -5,11 +5,10 @@ import { SuiClient } from "@mysten/sui.js/client";
 import { getSuiNetworkConfig } from "@/lib/utils";
 
 const BASE_URL = process.env.ENV !== "PROD" ? "http://localhost:11434/v1" : "https://api.atoma.network/v1";
-
 const API_KEY = process.env.ENV !== "PROD" ? "ollama" : process.env.ATOMA_API_KEY;
 
+// Update based on the model you want to use locally and/or available on Atoma Network
 const MODEL_LLAMA = process.env.ENV !== "PROD" ? "qwen2.5:3b" : "meta-llama/Llama-3.3-70B-Instruct";
-
 const MODEL_DEEPSEEK = process.env.ENV !== "PROD" ? "qwen2.5:3b" : "deepseek-ai/DeepSeek-R1";
 
 const tools = [
