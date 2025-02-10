@@ -27,9 +27,29 @@ export default function FooterContent() {
   return (
     <div className="container mx-auto w-full px-2 md:px-4 h-full">
       <div className="flex items-center justify-between h-full">
-        {/* Version */}
-        <div className="flex items-center space-x-1 md:space-x-2 text-black">
+        {/* Left side: Version */}
+        <div className="flex items-center space-x-4 md:space-x-6 text-black">
           <span className="text-[9px] md:text-[12px] md:text-xs">NIXORA v.BETA</span>
+
+          {/* Social Links */}
+          <div className="flex items-center space-x-2 md:space-x-3">
+            <a
+              href="https://twitter.com/nixora"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-70 transition-opacity"
+            >
+              <XLogo className="w-3 h-3 md:w-4 md:h-4" weight="bold" />
+            </a>
+            <a
+              href="https://github.com/nixora"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-70 transition-opacity"
+            >
+              <GithubLogo className="w-3 h-3 md:w-4 md:h-4" weight="bold" />
+            </a>
+          </div>
         </div>
 
         <div className="flex items-center space-x-2 md:space-x-4">
