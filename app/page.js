@@ -33,7 +33,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="container flex flex-col gap-4 text-black mx-auto min-h-[80vh] items-center justify-center">
+    <main className="container flex flex-col gap-4 text-black mx-auto min-h-[80vh] items-center justify-center px-4 sm:px-6">
       <AnimatePresence mode="wait">
         {wallet.connected ? (
           <motion.div
@@ -41,7 +41,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="w-full"
+            className="w-full max-w-full"
           >
             <ChatBoxAtoma
               onTypingChange={(typing) => {
@@ -55,11 +55,11 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="text-center"
+            className="text-center w-full"
           >
-            <Card className="min-w-lg mx-auto bg-transparent border-none shadow-none">
+            <Card className="w-full mx-auto bg-transparent border-none shadow-none">
               <CardContent>
-                <div className="w-full max-w-[280px] sm:max-w-[400px] mx-auto">
+                <div className="w-full max-w-[280px] sm:max-w-[400px] mx-auto px-4">
                   <NixoraToolsLogo />
                 </div>
                 <motion.p
@@ -68,7 +68,7 @@ export default function Home() {
                   transition={{ delay: 0.3 }}
                   className="text-2xl text-muted-foreground tracking-widest"
                 >
-                  DeFi AI Agent
+                  Full Stack AI Agent Starter Kit
                 </motion.p>
 
                 <motion.p
