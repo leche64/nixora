@@ -9,7 +9,7 @@ const API_KEY = process.env.LLM_API_KEY || "ollama";
 
 // Update based on the model you want to use locally and/or available on Atoma Network
 const MODEL_LLAMA = process.env.LLM_ENV !== "PROD" ? "qwen2.5:3b" : "meta-llama/Llama-3.3-70B-Instruct";
-const MODEL_DEEPSEEK = process.env.LLM_ENV !== "PROD" ? "qwen2.5:3b" : "deepseek-ai/DeepSeek-R1";
+const MODEL_DEEPSEEK = process.env.LLM_ENV !== "PROD" ? "deepseek-r1:1.5b" : "deepseek-ai/DeepSeek-R1";
 
 const tools = [
   {
