@@ -1,10 +1,10 @@
-<h1 align="center" style="font-size: 3em;">𝙽𝙸𝚇𝙾𝚁𝙰 𝙰𝙸</h1>
+<h1 align="center" style="font-size: 4em;">𝙽𝙸𝚇𝙾𝚁𝙰 𝙰𝙸</h1>
 
 <p align="center">
   <img src="./public/nixora-tools.svg" alt="Nixora Logo" width="800"/>
 </p>
 
-A full-stack DeFi AI Agent starter kit. Nixora is comes with numerous tools and features to help users build, interact and deploy their own DeFi AI agent on Sui blockchain within minutes. Powered by open source models ran locally via Ollama or Atoma Network. Private, secure, open source.
+> A full-stack DeFi AI Agent starter kit. Nixora comes with numerous components and features to help users build, interact and deploy their own DeFi AI agent on the Sui blockchain within minutes. Powered by open source models running locally via Ollama or Atoma Network. Private, secure, trusted execution environment (TEE).
 
 <div style="overflow-x: auto; white-space: nowrap; padding: 10px 0;">
   <img src="./public/s1.png" alt="Screenshot 1" style="display: inline-block; height: 300px; margin-right: 10px;">
@@ -198,6 +198,7 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
 
 ## ✨ Features
 
+- Private, secure, trusted execution environment (TEE)
 - Modern, responsive UI with micro-interactions and animations
 - AI-powered functionality using multiple AI providers
 - Blockchain integration with Sui Network
@@ -257,6 +258,22 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
    ```
 
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 🕵️ Full Privacy & Security
+
+> Nixora is built with privacy and security in mind. No data is ever logged or stored on the server and their is no database within this app. All data is stored locally on your device and AI compute is processed either by Ollama (locally) or Atoma Network (decentralized cloud).
+
+### Run Local for maximum privacy
+
+1. Download Ollama from https://ollama.com/download
+2. Download the model of your choice from https://ollama.com/library
+   - The most performant model for tool calling on modest hardware I've found to be [qwen2.5:1.5b](https://ollama.com/library/qwen2.5:1.5b)
+     - 2 GHz Quad-Core Intel Core i5 - 16 GB 3733 MHz LPDDR4X
+3. Run the model locally via Ollama, this automatically starts the Ollama server and exposes the API at `http://localhost:11434/v1` on your machine that any local app (terminal, UI, etc.) can make API calls to.
+
+```bash
+ollama run qwen2.5:1.5b
+```
 
 ## 🔗 Useful Links
 
