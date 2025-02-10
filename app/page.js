@@ -75,7 +75,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="mt-3 text-lg text-muted-foreground/80 tracking-wide max-w-sm mx-auto flex flex-col items-center"
+                  className="mt-3 text-sm text-muted-foreground/80 tracking-wide max-w-sm mx-auto flex flex-col items-center"
                 >
                   <span>Explore the future of</span>
                   <span className="font-medium">AI x DeFi x Sui</span>
@@ -102,7 +102,7 @@ export default function Home() {
                         duration: 0.3,
                       },
                     }}
-                    className="mt-6 text-xl font-light text-primary/80 tracking-tighter max-w-sm mx-auto"
+                    className="mt-6 text-lg font-light text-primary/80 tracking-tighter max-w-sm mx-auto"
                   >
                     {taglines[currentTagline]}
                   </motion.div>
@@ -114,7 +114,7 @@ export default function Home() {
                         !font-medium !flex !items-center !gap-2 !w-auto !min-w-fit"
                   >
                     <Wallet className="size-8 md:size-10" weight="bold" />
-                    <span className="hidden sm:inline text-base md:text-lg font-vt323">Connect Wallet</span>
+                    <span className="hidden sm:inline text-sm md:text-base lg:text-lg font-vt323">Connect Wallet</span>
                   </ConnectButton>
                 </div>
               </CardContent>
