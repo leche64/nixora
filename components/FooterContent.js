@@ -1,6 +1,6 @@
 "use client";
 
-import { XLogo, Book, GithubLogo, Link, Cube, Drop } from "@phosphor-icons/react";
+import { XLogo, Book, GithubLogo, Link, Cube, Drop, Circle } from "@phosphor-icons/react";
 import { useSuiPrice } from "@/hooks/useSuiPrice";
 import { useQuery } from "@tanstack/react-query";
 import { useWallet } from "@suiet/wallet-kit";
@@ -56,10 +56,18 @@ export default function FooterContent() {
           <div className="h-4 w-px bg-zinc-800" />
           {/* NETWORK */}
           <div className="flex items-center text-black">
-            <Link className="w-4 h-4  md:w-5 md:h-5 mr-1" weight="light" />
-            <span className="text-[10px] md:text-xs">
-              {wallet.connected ? wallet.chain?.name.toUpperCase() : "DISCONNECTED"}
-            </span>
+            <Link className="hidden md:block w-5 h-5 mr-1" weight="light" />
+            {wallet.connected ? (
+              <>
+                <Circle className="block md:hidden w-3 h-3 animate-pulse" weight="fill" color="#22c55e" />
+                <span className="hidden md:block text-xs">{wallet.chain?.name.toUpperCase()}</span>
+              </>
+            ) : (
+              <>
+                <Circle className="block md:hidden w-3 h-3 animate-pulse" weight="fill" color="#ef4444" />
+                <span className="hidden md:block text-xs">DISCONNECTED</span>
+              </>
+            )}
           </div>
         </div>
       </div>
