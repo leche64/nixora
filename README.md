@@ -269,7 +269,7 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
       # https://api.atoma.network/v1 (ATOMA)
       # https://api.openai.com/v1 (OPENAI)
       # <ANY AI COMPUTE PROVIDER>
-      LLM_BASE_URL=https://api.atoma.network/v1
+      LLM_BASE_URL=http://localhost:11434/v1
 
       # OPTIONS:
       # "ollama" (DEFAULT)
