@@ -40,12 +40,17 @@ On deployment, users can easily switch AI compute provider from local to Atoma N
   - Qwen2.5 3B
 - Crypto Price Search
   - CryptoCompare API
+  - ask: `What is the price of SUI?`
 - Internet Search
   - Tavily Search API
+  - ask: `Search superbowl winner 2025?`
 - DeFi Yield Search / Analysis
   - NAVI API
   - Bluefin API
+  - ask: `find defi yield`
 - Transfer Sui To Wallet
+  - Suiet Wallet Kit
+  - ask: `send 0.69 sui to 0x069bd5e649525777e5da73c151ff87ac4e82583ca4a5badb3dcab0b2c29c0656`
 
 ## API(s)
 
