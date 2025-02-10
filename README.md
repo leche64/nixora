@@ -38,6 +38,7 @@ GET /api/navi
 ```
 
 This endpoint interacts with NAVI Protocol's API to retrieve comprehensive liquidity pool data. The data is then analyzed by Nixora AI agent to:
+
 - Identify optimal yield farming opportunities
 - Calculate potential returns and APY
 - Assess pool stability and risks
@@ -49,7 +50,7 @@ This endpoint interacts with NAVI Protocol's API to retrieve comprehensive liqui
 ```json
 {
   "success": true,
-  "analysis": "**Navi Protocol Analysis**\n\n1. **Highest Yield Farming (Supply) Opportunities**: The top three assets for yield farming on Navi Protocol are NS (28.863% APY), DEEP (22.241% APY), and NAVX (18.743% APY). These assets offer the highest supply APYs, making them attractive for users looking to maximize their yield.\n2. **Lowest Borrowing Rates**: The assets with the lowest borrowing rates on Navi Protocol are BTC (0.466% APY), CERT (0.843% APY), and HASUI (0.224% APY). These low borrowing rates make them ideal for users who need to borrow assets for trading or other purposes.\n3. **Best Risk-Adjusted Returns considering LTV ratios**: Considering the LTV ratios, the top assets for risk-adjusted returns are BUCK (13.195% APY, 0.7 LTV), USDT (11.342% APY, 0.7 LTV), and FDUSD (10.364% APY, 0.7 LTV). These assets offer a balance between yield and collateral requirements.\n\n**Bluefin.io Trading Opportunities**\n\n1. **Perpetual Futures Trading**: With the launch of perpetual futures trading on Bluefin's DEX in Q1 2025, users can expect to trade popular assets like BTC, ETH, and NS with high leverage and low fees.\n2. **Spot Trading with Cross-Chain Liquidity**: Bluefin's DEX offers spot trading with cross-chain liquidity, allowing users to trade assets across different blockchain networks. This feature enables users to access a broader range of assets and liquidity pools.\n3. **Sub-Second Transaction Execution**: Bluefin's high-performance DEX ensures fast and efficient transaction execution, making it ideal for traders who require quick execution and low latency.\n\n**Cross-Platform Arbitrage Potential**\n\nBy monitoring price discrepancies between Navi Protocol's lending markets and Bluefin's DEX, users can identify arbitrage opportunities. For example, if the price of an asset is higher on Bluefin's DEX than on Navi Protocol, users can buy the asset on Navi Protocol and sell it on Bluefin's DEX, earning a profit from the price difference.\n\nView all Navi markets at https://app.naviprotocol.io/market\nExplore Bluefin's DEX at https://bluefin.io",
+  "analysis": "**Navi Protocol Analysis**\n\n1. **Highest Yield Farming (Supply) Opportunities**: The top three assets for yield farming on Navi Protocol are NS (28.863% APY), DEEP (22.241% APY), and NAVX (18.743% APY). These assets offer the highest supply APYs, making them attractive for users looking to maximize their yield.\n2. **Lowest Borrowing Rates**: The assets with the lowest borrowing rates on Navi Protocol are BTC (0.466% APY), CERT (0.843% APY), and HASUI (0.224% APY). These low borrowing rates make them ideal for users who need to borrow assets for trading or other purposes.\n3. Potocol's lending markets and Bluefin's DEX, users can identify arbitrage opportunities. For example, if the price of an asset is higher on Bluefin's DEX than on Navi Protocol, users can buy the asset on Navi Protocol and sell it on Bluefin's DEX, earning a profit from the price difference.\n\nView all Navi markets at https://app.naviprotocol.io/market\nExplore Bluefin's DEX at https://bluefin.io",
   "timing": {
     "total": 6100.980133000063,
     "dataProcessing": 0.0742629999294877,
@@ -58,7 +59,116 @@ This endpoint interacts with NAVI Protocol's API to retrieve comprehensive liqui
 }
 ```
 
-The analyzed data helps users make informed DeFi investment decisions on the Sui blockchain.
+### Bluefin Integration
+
+```http
+GET /api/bluefin
+```
+
+This endpoint interfaces with Bluefin's DEX API to fetch real-time trading data and market insights. The data is analyzed by Nixora AI agent to:
+
+- Monitor trading opportunities across spot and perpetual markets
+- Analyze market depth and liquidity
+- Track price movements and volatility
+- Identify potential arbitrage opportunities
+- Calculate trading fees and potential slippage
+
+#### Sample Response
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "symbol": "suiUSDT/USDC",
+      "tvl": "16972610.750106346357215",
+      "dayStats": {
+        "apr": {
+          "total": "28.5039748739",
+          "feeApr": "6.9764253",
+          "rewardApr": "21.5275495739"
+        },
+        "volume": "32440584.593327047983354",
+        "priceRange": {
+          "min": "0.999714609",
+          "max": "1.000270619"
+        }
+      },
+      "weekStats": {
+        "apr": {
+          "total": "24.236259986",
+          "feeApr": "2.76769",
+          "rewardApr": "21.468569986"
+        },
+        "volume": "90336356.058227410852185"
+      },
+      "currentPrice": "0.999787666",
+      "tokens": {
+        "tokenA": {
+          "symbol": "suiUSDT",
+          "amount": "4322814255705"
+        },
+        "tokenB": {
+          "symbol": "USDC",
+          "amount": "12674712061885"
+        }
+      },
+      "rewards": [
+        {
+          "token": "BLUE",
+          "dailyRewardsUsd": "1616.8133672472789504"
+        },
+        {
+          "token": "stSUI",
+          "dailyRewardsUsd": "8393.562504590914944"
+        }
+      ]
+    },
+    {
+      "symbol": "stSUI/USDC",
+      "tvl": "889799.353530276596783576",
+      "dayStats": {
+        "apr": {
+          "total": "111.8216636",
+          "feeApr": "109.5212448",
+          "rewardApr": "2.3004188"
+        },
+        "volume": "5339827.824026051669745192",
+        "priceRange": {
+          "min": "2.858779241",
+          "max": "3.196590165"
+        }
+      },
+      "weekStats": {
+        "apr": {
+          "total": "212.6746199",
+          "feeApr": "210.3805036",
+          "rewardApr": "2.2941163"
+        },
+        "volume": "71998585.313332665645604048"
+      },
+      "currentPrice": "3.14042285",
+      "tokens": {
+        "tokenA": {
+          "symbol": "stSUI",
+          "amount": "229581222922007"
+        },
+        "tokenB": {
+          "symbol": "USDC",
+          "amount": "168213112366"
+        }
+      },
+      "rewards": [
+        {
+          "token": "BLUE",
+          "dailyRewardsUsd": "56.0797584018805152"
+        }
+      ]
+    }
+  ],
+  "analysis": "**DeFi Liquidity Pools Analysis on Bluefin**\n\n### 1. Overview\n\nThe top 5 liquidity pools on Bluefin have varying TVLs, with the suiUSDT/USDC pool having the highest TVL at $16,972,610.75, followed by the SUI/USDC pool at $8,134,226.78. The DEEP/SUI pool has the lowest TVL at $2,483,852.43. Trading conditions also differ, with the SUI/USDC pool having the highest daily volume at $8,491,040.76, while the wUSDT/USDC pool has the lowest at $6,227,362.20.\n\n### 2. APR Analysis\n\nThe DEEP/SUI pool has the highest total APR at 277.84%, with a fee APR of 190.29% and a reward APR of 87.55%. The SUI/USDC pool has the second-highest total APR at 116.95%, with a fee APR of 76.20% and a reward APR of 40.75%. The wUSDT/USDC pool has the lowest total APR at 18.59%, with a fee APR of 7.28% and a reward APR of 11.31%.\n\n### 3. Risk Assessment\n\nPrice stability varies across pools, with the wUSDT/USDC pool having the most stable price range (0.999814796 - 1.000346352). The DEEP/SUI pool has the most volatile price range (0.055930582 - 0.058670431). The SUI/USDC pool has a relatively stable price range (2.890277601 - 3.176872803).\n\n### 4. Recommendation\n\nBased on TVL, APR, and risk metrics, the ranking of the pools is:\n1. SUI/USDC: High TVL, high APR, and relatively stable price range.\n2. suiUSDT/USDC: High TVL, moderate APR, and stable price range.\n3. DEEP/SUI: Low TVL, high APR, but volatile price range.\n4. wUSDT/USDC: Low TVL, low APR, but stable price range.\n5. stSUI/USDC: Low TVL, high APR, but relatively stable price range.\n\nTo view more details on these liquidity pools and make informed investment decisions, visit the [Bluefin trading platform](https://trade.bluefin.io/liquidity-pools)."
+}
+```
 
 ## 🤖 Tech Stack
 
