@@ -4,7 +4,7 @@
   <img src="./public/nixora-tools.svg" alt="Nixora Logo" width="800"/>
 </p>
 
-A full-stack DeFi AI Agent starter kit. Nixora is comes with numerous tools and features to help users build, interact and deploy their own DeFi AI agent on Sui blockchain within minutes. Powered by open source models ran locally via Ollama or Atoma Network.
+A full-stack DeFi AI Agent starter kit. Nixora is comes with numerous tools and features to help users build, interact and deploy their own DeFi AI agent on Sui blockchain within minutes. Powered by open source models ran locally via Ollama or Atoma Network. Private, secure, open source.
 
 <div style="overflow-x: auto; white-space: nowrap; padding: 10px 0;">
   <img src="./public/s1.png" alt="Screenshot 1" style="display: inline-block; height: 300px; margin-right: 10px;">
@@ -266,6 +266,7 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
 - [Bluefin](https://bluefin-exchange.readme.io/reference/spot-api-introduction) - DeFi protocol on Sui
 - [Atoma Network](https://atoma.network/) - Decentralized AI private cloud
 - [Ollama](https://ollama.com/) - Local AI models
+- [Open LLM Leaderboard](https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard#/?params=3%2C7&official=true) - Compare performance of open source LLMs
 
 ## 📝 License
 
