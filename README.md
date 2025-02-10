@@ -246,6 +246,7 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
    NEXT_PUBLIC_APP_URL=http://localhost:3000
 
    # Sui Network
+   # Options: MAINNET, TESTNET, DEVNET
    SUI_NETWORK=TESTNET
 
    # Environment
