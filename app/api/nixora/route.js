@@ -136,7 +136,7 @@ export async function POST(req) {
           tools,
           tool_choice: "auto",
           temperature: 0.5,
-          max_tokens: 1500,
+          max_tokens: 2000,
           stream: true,
         }),
       });
@@ -281,7 +281,7 @@ export async function POST(req) {
             { role: "user", content: message },
           ],
           temperature: 0.7,
-          max_tokens: 1200,
+          max_tokens: 3000,
           stream: true,
         }),
       });
@@ -454,7 +454,7 @@ async function handleToolCall(toolCall) {
             },
           ],
           temperature: 0.3,
-          max_tokens: 500,
+          max_tokens: 2000,
         }),
       });
 
