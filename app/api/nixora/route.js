@@ -136,7 +136,7 @@ export async function POST(req) {
           tools,
           tool_choice: "auto",
           temperature: 0.5,
-          max_tokens: 700,
+          max_tokens: 1500,
           stream: true,
         }),
       });
