@@ -594,7 +594,7 @@ export default function ChatBoxAtoma({ onTypingChange }) {
               <div className="flex flex-col gap-1 z-50 max-w-[200px] whitespace-normal !text-wrap text-xs">
                 <p>Search the internet for any topic in real time.</p>
                 <br />
-                <p>Try asking: "search for luka doncic trade"</p>
+                <p>Try asking: "search for superbowl winner 2025"</p>
               </div>
             }
           />
