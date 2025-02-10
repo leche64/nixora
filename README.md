@@ -18,12 +18,26 @@ A full-stack DeFi AI Agent starter kit. Nixora comes with numerous components an
   <img src="./public/s5.png" alt="Screenshot 5" style="display: inline-block; height: 300px;">
 </div>
 
+## Why I built Nixora
+
+I built Nixora to allow users a quick and easy way to get started with AI agents. Previously, I was discouraged in building AI agents due to the growing AI compute cost, and lack of privacy. Building and iterating with AI agents gets expensive quickly when relaying on third party AI compute providers, and I wanted to make it easier for users to get started.
+
+Nixora allows you to build, iterate and test your AI agent locally, without any third parties involved or outside network connections, private and unlimited request to local LLM(s) running via Ollama. This gives the developer freedom to test and iterate wouldn't worrying about a growing bill.
+
+Included with everything you need to focus on building, iterating and testing your AI agent.
+
+On deployment, users can easily switch AI compute provider from local to Atoma Network with a simple environment variable change. Atoma is a decentralized AI compute provider that allows users to run LLM(s) in a private, secure, and trusted execution environment (TEE).
+
 ## 🛠 Agent Tools / Capabilities
 
 <p align="center">
   <img src="./public/nixora-diagram.png" alt="Nixora Architecture Diagram" width="800"/>
 </p>
 
+- Reasoning / Logic (LLM)
+  - Llama 3.3 70B Instruct
+  - DeepSeek-R1
+  - Qwen2.5 3B
 - Crypto Price Search
   - CryptoCompare API
 - Internet Search
@@ -242,21 +256,34 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
    Create a `.env` file in the root directory and add necessary environment variables.
 
    ```env
-   # App URL
-   NEXT_PUBLIC_APP_URL=http://localhost:3000
+      NEXT_PUBLIC_APP_URL=http://localhost:3000
 
-   # Sui Network
-   # Options: MAINNET, TESTNET, DEVNET
-   SUI_NETWORK=TESTNET
+      # OPTIONS:
+      # TESTNET
+      # MAINNET
+      # <ANY AI COMPUTE PROVIDER>
+      SUI_NETWORK=TESTNET
 
-   # Environment
-   # change depending on your AI compute provider
-   # DEV = OLLAMA (LOCAL) || PROD = ATOMA (CLOUD)
-   ENV=PROD
+      # OPTIONS:
+      # http://localhost:11434/v1 (OLLAMA)
+      # https://api.atoma.network/v1 (ATOMA)
+      # https://api.openai.com/v1 (OPENAI)
+      # <ANY AI COMPUTE PROVIDER>
+      LLM_BASE_URL=https://api.atoma.network/v1
 
-   # Tavily API for internet search
-   # Get your API key at https://app.tavily.com/home
-   TAVILY_API_KEY=<your_api_key>
+      # OPTIONS:
+      # "ollama" (DEFAULT)
+      # Retrieve API Key from LLM Provider
+      LLM_API_KEY=XXXXXXXXXX
+
+      # OPTIONS:
+      # PROD = ATOMA (AI Compute Provider) "meta-llama/Llama-3.3-70B-Instruct" + "deepseek-ai/DeepSeek-R1"
+      # LOCAL = OLLAMA (LOCAL) "qwen2.5:3b" download from: https://ollama.com/library/qwen2.5:3b
+      LLM_ENV=LOCAL
+
+      # Tavily API for internet search
+      # Get your API key at https://app.tavily.com/home
+      TAVILY_API_KEY=XXXXXXXXXX
    ```
 
 4. **Run the development server:**
