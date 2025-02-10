@@ -35,6 +35,10 @@ A full-stack DeFi AI Agent starter kit. Nixora comes with numerous components an
 
 ## API(s)
 
+<p align="center">
+  <img src="./public/api-diagram.png" alt="API" width="800"/>
+</p>
+
 ### NAVI Protocol Integration
 
 ```http
