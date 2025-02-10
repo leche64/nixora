@@ -106,7 +106,7 @@ export default function ChatBoxAtoma({ onTypingChange }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            message: "hello, what are you",
+            message: "hello, what can you do",
             walletAddress: wallet.account?.address || null,
             model: selectedModel,
           }),
