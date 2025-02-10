@@ -257,10 +257,6 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
    # Tavily API for internet search
    # Get your API key at https://app.tavily.com/home
    TAVILY_API_KEY=<your_api_key>
-
-   # Atoma API for AI compute
-   # Get your API key at https://cloud.atoma.network/
-   ATOMA_API_KEY=<your_api_key>
    ```
 
 4. **Run the development server:**

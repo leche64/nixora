@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  baseURL: "https://api.atoma.network/v1",
-  apiKey: process.env.ATOMA_API_KEY,
+  baseURL: process.env.LLM_BASE_URL || "http://localhost:11434/v1",
+  apiKey: process.env.LLM_API_KEY || "ollama",
 });
 
-const model = "meta-llama/Llama-3.3-70B-Instruct";
+const model = process.env.LLM_ENV !== "PROD" ? "qwen2.5:3b" : "meta-llama/Llama-3.3-70B-Instruct";
 
 export async function GET() {
   try {
@@ -98,11 +98,6 @@ export async function GET() {
     Note: Include a link to view more details at https://trade.bluefin.io/liquidity-pools`;
 
     console.log("[OpenAI] Initializing request...");
-    console.log("[OpenAI] Checking API configuration:", {
-      baseURL: openai.baseURL,
-      hasApiKey: !!process.env.ATOMA_API_KEY,
-      model,
-    });
 
     console.log("Sending request to OpenAI API...");
     const aiResponse = await openai.chat.completions.create({

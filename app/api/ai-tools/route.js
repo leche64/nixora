@@ -5,11 +5,11 @@ import { SuiClient } from "@mysten/sui.js/client";
 import { getSuiNetworkConfig } from "@/lib/utils";
 
 const openai = new OpenAI({
-  baseURL: "http://localhost:11434/v1",
-  apiKey: "ollama",
+  baseURL: process.env.LLM_BASE_URL || "http://localhost:11434/v1",
+  apiKey: process.env.LLM_API_KEY || "ollama",
 });
-// accurate and slow: qwen2.5:3b, llama3.2:3b
-const model = "qwen2.5:3b";
+
+const model = process.env.LLM_ENV !== "PROD" ? "qwen2.5:3b" : "meta-llama/Llama-3.3-70B-Instruct";
 
 const tools = [
   {

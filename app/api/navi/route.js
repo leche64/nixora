@@ -8,11 +8,11 @@ import { NextResponse } from "next/server";
 // });
 
 const openai = new OpenAI({
-  baseURL: "https://api.atoma.network/v1",
-  apiKey: process.env.ATOMA_API_KEY,
+  baseURL: process.env.LLM_BASE_URL || "http://localhost:11434/v1",
+  apiKey: process.env.LLM_API_KEY || "ollama",
 });
 
-const model = "meta-llama/Llama-3.3-70B-Instruct";
+const model = process.env.LLM_ENV !== "PROD" ? "qwen2.5:3b" : "meta-llama/Llama-3.3-70B-Instruct";
 
 async function fetchPoolData() {
   try {
