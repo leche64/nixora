@@ -225,6 +225,16 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
 3. **Set up environment variables:**
    Create a `.env` file in the root directory and add necessary environment variables.
 
+   ```env
+   # Tavily API for internet search
+   # Get your API key at https://app.tavily.com/home
+   TAVILY_API_KEY=<your_api_key>
+
+   # Atoma API for AI compute
+   # Get your API key at https://cloud.atoma.network/
+   ATOMA_API_KEY=<your_api_key>
+   ```
+
 4. **Run the development server:**
 
    ```bash
