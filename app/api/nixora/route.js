@@ -281,7 +281,7 @@ export async function POST(req) {
             { role: "user", content: message },
           ],
           temperature: 0.7,
-          max_tokens: 700,
+          max_tokens: 1200,
           stream: true,
         }),
       });
@@ -387,7 +387,7 @@ async function handleToolCall(toolCall) {
             },
           ],
           temperature: 0.7,
-          max_tokens: 400,
+          max_tokens: 700,
         }),
       });
 
