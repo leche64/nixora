@@ -304,15 +304,21 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
 
 ### Run Local for maximum privacy
 
-1. Download Ollama from https://ollama.com/download
-2. Download the model of your choice from https://ollama.com/library
+1. Set Environment Variables For Local settings / LLM(s)
+   ```
+   LLM_BASE_URL=http://localhost:11434/v1
+   LLM_API_KEY=ollama
+   LLM_ENV=LOCAL
+   ```
+2. Download Ollama from https://ollama.com/download
+3. Download the model of your choice from https://ollama.com/library
    - The most performant model for tool calling on modest hardware I've found to be [qwen2.5:1.5b](https://ollama.com/library/qwen2.5:1.5b)
      - 2 GHz Quad-Core Intel Core i5 - 16 GB 3733 MHz LPDDR4X
-3. Run the model locally via Ollama, this automatically starts the Ollama server and exposes the API at `http://localhost:11434/v1` on your machine that any local app (terminal, UI, etc.) can make API calls to.
+4. Run the model locally via Ollama, this automatically starts the Ollama server and exposes the API at `http://localhost:11434/v1` on your machine that any local app (terminal, UI, etc.) can make API calls to.
    ```bash
    ollama run qwen2.5:1.5b
    ```
-4. Running LLM(s) locally means you talk directly to the model(s) without any third parties involved or outside network connections, unlimited.. FOR FREE.
+5. Running LLM(s) locally means you talk directly to the model(s) without any third parties involved or outside network connections, unlimited.. FOR FREE.
 
 ## 🔗 Useful Links
 
