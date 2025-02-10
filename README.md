@@ -272,7 +272,7 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
 
 ## 🕵️ Full Privacy & Security
 
-> Nixora is built with privacy and security in mind. No data is ever logged or stored on the server and their is no database within this app. All data is stored locally on your device and AI compute is processed either by Ollama (locally) or Atoma Network (decentralized cloud).
+> Nixora is built with privacy and security in mind. No data is ever logged or stored on the server and there is no database within this app. All data is stored locally on your device and AI compute is processed either by Ollama (locally) or Atoma Network (decentralized cloud).
 
 ### Run Local for maximum privacy
 
