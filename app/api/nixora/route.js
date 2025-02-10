@@ -281,7 +281,7 @@ export async function POST(req) {
             { role: "user", content: message },
           ],
           temperature: 0.5,
-          max_tokens: 4000,
+          max_tokens: 3000,
           stream: true,
         }),
       });
