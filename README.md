@@ -4,7 +4,7 @@
   <img src="./public/nixora-tools.svg" alt="Nixora Logo" width="800"/>
 </p>
 
-A full-stack DeFi AI Agent starter kit. Nixora is a powerful AI agent that comes with numerous tools and features to help users build, interact and deploy their own DeFi AI agent on Sui blockchain within minutes. Powered by open source models ran locally via Ollama or Atoma Network.
+A full-stack DeFi AI Agent starter kit. Nixora is comes with numerous tools and features to help users build, interact and deploy their own DeFi AI agent on Sui blockchain within minutes. Powered by open source models ran locally via Ollama or Atoma Network.
 
 <div style="overflow-x: auto; white-space: nowrap; padding: 10px 0;">
   <img src="./public/s1.png" alt="Screenshot 1" style="display: inline-block; height: 300px; margin-right: 10px;">
@@ -65,7 +65,7 @@ This endpoint interacts with NAVI Protocol's API to retrieve comprehensive liqui
 GET /api/bluefin
 ```
 
-This endpoint interfaces with Bluefin's DEX API to fetch real-time trading data and market insights. The data is analyzed by Nixora AI agent to:
+This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool data and market insights. The data is analyzed by Nixora AI agent to:
 
 - Monitor trading opportunities across spot and perpetual markets
 - Analyze market depth and liquidity
