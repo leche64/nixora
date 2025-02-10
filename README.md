@@ -2,7 +2,9 @@
 
 A modern web application built with Next.js 14, integrating AI capabilities and blockchain features using the Sui network.
 
-![Nixora Tools Overview](./public/nixora-tools.png)
+<p align="center">
+  <img src="./public/nixora-tools.png" alt="Nixora Tools Overview" width="800"/>
+</p>
 
 ## 🚀 Tech Stack
 
