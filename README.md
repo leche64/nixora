@@ -208,7 +208,7 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
 1. **Clone the repository:**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/leche64/nixora.git
    cd nixora
    ```
 
@@ -237,29 +237,6 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
 
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## 🔧 Development
-
-- The project follows a modular architecture with components organized in the `components/` directory
-- Styles are primarily handled through Tailwind CSS
-- Custom hooks are available in the `hooks/` directory
-- Utility functions and configurations are stored in the `lib/` directory
-
-## 📦 Project Structure
-
-```
-nixora/
-├── app/                # Next.js app router pages and layouts
-├── components/         # Reusable UI components
-├── hooks/             # Custom React hooks
-├── lib/               # Utility functions and configurations
-├── public/            # Static assets
-└── providers.js       # React context providers
-```
-
-## 🚀 Deployment
-
-The application is optimized for deployment on Vercel. For other platforms, ensure proper environment variable configuration and build settings.
-
 ## 🔗 Useful Links
 
 - [Sui Developer Portal](https://sui.io/developers#dev-tools) - Official Sui development resources and tools
@@ -272,7 +249,3 @@ The application is optimized for deployment on Vercel. For other platforms, ensu
 ## 📝 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
