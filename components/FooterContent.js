@@ -42,7 +42,7 @@ export default function FooterContent() {
               <XLogo className="w-3 h-3 md:w-4 md:h-4" weight="bold" />
             </a>
             <a
-              href="https://github.com/nixora"
+              href="https://github.com/leche64/nixora"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:opacity-70 transition-opacity"
