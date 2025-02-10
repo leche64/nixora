@@ -4,7 +4,11 @@
   <img src="./public/nixora-tools.svg" alt="Nixora Logo" width="800"/>
 </p>
 
-> A full-stack DeFi AI Agent starter kit. Nixora comes with numerous components and features to help users build, interact and deploy their own DeFi AI agent on the Sui blockchain within minutes. Powered by open source models running locally via Ollama or Atoma Network. Private, secure, trusted execution environment (TEE).
+<br />
+
+# Nixora
+
+A full-stack DeFi AI Agent starter kit. Nixora comes with numerous components and features to help users build, interact and deploy their own DeFi AI agent on the Sui blockchain within minutes. Powered by open source models running locally via Ollama or Atoma Network. Private, secure, trusted execution environment (TEE).
 
 <div style="overflow-x: auto; white-space: nowrap; padding: 10px 0;">
   <img src="./public/s1.png" alt="Screenshot 1" style="display: inline-block; height: 300px; margin-right: 10px;">
@@ -198,10 +202,17 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
 
 ## ✨ Features
 
-- Private, secure, trusted execution environment (TEE)
-- Modern, responsive UI with micro-interactions and animations
-- AI-powered functionality using multiple AI providers
-- Blockchain integration with Sui Network
+- AI Integration (Atoma Network, Ollama)
+  - Llama3.3 70B Instruct
+  - DeepSeek-R1
+- Sui wallet integration
+- Interact with AI agent via chat UI/UX
+- AI compute in private, secure, trusted execution environment (TEE)
+- AI agent tools:
+  - Crypto Price Search
+  - Internet Search
+  - DeFi Yield Search / Analysis
+  - Send Sui to wallet
 - Real-time data updates and caching with TanStack Query
 
 ## 🛠 Getting Started
@@ -270,10 +281,10 @@ This endpoint interfaces with Bluefin's API to fetch real-time liquidity pool da
    - The most performant model for tool calling on modest hardware I've found to be [qwen2.5:1.5b](https://ollama.com/library/qwen2.5:1.5b)
      - 2 GHz Quad-Core Intel Core i5 - 16 GB 3733 MHz LPDDR4X
 3. Run the model locally via Ollama, this automatically starts the Ollama server and exposes the API at `http://localhost:11434/v1` on your machine that any local app (terminal, UI, etc.) can make API calls to.
-
-```bash
-ollama run qwen2.5:1.5b
-```
+   ```bash
+   ollama run qwen2.5:1.5b
+   ```
+4. Running LLM(s) locally means you talk directly to the model(s) without any third parties involved or outside network connections.
 
 ## 🔗 Useful Links
 
