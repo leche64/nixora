@@ -10,6 +10,10 @@
 
 A full-stack DeFi AI Agent starter kit. Nixora comes with numerous components and features to allow users build, interact and deploy their own DeFi AI agent on the Sui blockchain within minutes. Powered by open source models running locally via Ollama or Atoma Network. Private, secure, trusted execution environment (TEE).
 
+> **⚠️ NOTE:** This is a submission into the SUI AI agent hackathon, the last commit time was past the deadline only to include demo link to video. The delay video submission was due to Atoma infra issues near deadline.. talked to a few Atoma members.. please accept my submission ^\_^
+
+**Demo Video:** [Download From Google Drive](https://drive.google.com/file/d/1UbAWDoMikVb6WXm-1WaN83xvY0--fVPv/view?usp=drive_link)
+
 <div style="overflow-x: auto; white-space: nowrap; padding: 10px 0;">
   <img src="./public/s1.png" alt="Screenshot 1" style="display: inline-block; height: 300px; margin-right: 10px;">
   <img src="./public/s2.png" alt="Screenshot 2" style="display: inline-block; height: 300px; margin-right: 10px;">

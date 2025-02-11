@@ -34,7 +34,7 @@ export default function FooterContent() {
           {/* Social Links */}
           <div className="flex items-center space-x-2 md:space-x-3">
             <a
-              href="https://twitter.com/nixora"
+              href="https://x.com/0xBlazeIt"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:opacity-70 transition-opacity"
