@@ -14,6 +14,8 @@ A full-stack DeFi AI Agent starter kit. Nixora comes with numerous components an
 
 **Demo Video:** [Download From Google Drive](https://drive.google.com/file/d/1UbAWDoMikVb6WXm-1WaN83xvY0--fVPv/view?usp=drive_link)
 
+**Live Demo:** [nixora.vercel.app](https://nixora.vercel.app/)
+
 <div style="overflow-x: auto; white-space: nowrap; padding: 10px 0;">
   <img src="./public/s1.png" alt="Screenshot 1" style="display: inline-block; height: 300px; margin-right: 10px;">
   <img src="./public/s2.png" alt="Screenshot 2" style="display: inline-block; height: 300px; margin-right: 10px;">
